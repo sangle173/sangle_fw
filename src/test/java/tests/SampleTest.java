@@ -15,6 +15,5 @@ public class SampleTest extends BaseTest {
         keyEventUtils.pressDown();
         WebElement currentElement = driver.switchTo().activeElement();
         System.out.println(currentElement.getText());
-        WebElement childElement = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().childSelector(\"new UiSelector().description(\"TÁI SINH - Tùng Dương (ST: Tăng Duy Tân) | Liveshow Người Đàn Ông Hát | Chìm vào trong ánh mắt...\").instance(1)\"))"));
     }
 }
