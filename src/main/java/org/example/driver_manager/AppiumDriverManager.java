@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.driver_manager;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;

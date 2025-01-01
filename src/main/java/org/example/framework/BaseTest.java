@@ -1,7 +1,7 @@
 package org.example.framework;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.example.utils.AppiumDriverManager;
+import org.example.driver_manager.AppiumDriverManager;
 import org.testng.annotations.*;
 
 public class BaseTest {

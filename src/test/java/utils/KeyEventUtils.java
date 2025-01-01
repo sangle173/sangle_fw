@@ -1,8 +1,9 @@
-package org.example.utils;
+package utils;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.qameta.allure.Step;
 
 public class KeyEventUtils {
     private AndroidDriver driver;
@@ -11,14 +12,18 @@ public class KeyEventUtils {
         this.driver = driver;
     }
 
+    @Step("HOME button clicked.")
     public void pressHome() {
         driver.pressKey(new KeyEvent(AndroidKey.HOME));
-        System.out.println("HOME button clicked.");
     }
+
+    @Step("DPAD_DOWN button clicked.")
     public void pressDown() {
         driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN));
         System.out.println("DPAD_DOWN button clicked.");
     }
+
+    @Step("DPAD_RIGHT button clicked.")
     public void pressRight() {
         driver.pressKey(new KeyEvent(AndroidKey.DPAD_RIGHT));
         System.out.println("DPAD_RIGHT button clicked.");
