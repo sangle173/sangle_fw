@@ -1,8 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Sample Test">
+<suite name="TestSuite">
+    <listeners>
+        <listener class-name="org.example.utils.TestListener"/>
+    </listeners>
     <test name="Sample Tests">
         <classes>
             <class name="tests.SampleTest" />
+<!--            <class name="web_tests.WebSampleTest" />-->
         </classes>
     </test>
 </suite>

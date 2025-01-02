@@ -52,7 +52,8 @@ After running the tests, the results will be stored in the `target/allure-result
 1. **Generate the Allure Report:**
    Run the following command to generate the report:
    ```bash
-   allure generate target/allure-results --clean
+   allure generate allure-results --clean
+   allure serve allure-results
 2. **View Report:**
    To view the generated report in your default browser, run::
    ```bash
