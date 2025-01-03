@@ -24,7 +24,7 @@ public class SampleTest extends BaseTest {
     }
 
     @Test
-    public void testDemo() {
+    public void testDemo() throws InterruptedException {
         KeyEventUtils keyEventUtils = new KeyEventUtils(driver);
         keyEventUtils.pressHome();
         keyEventUtils.pressDown();

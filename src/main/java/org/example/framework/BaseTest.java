@@ -2,8 +2,11 @@ package org.example.framework;
 
 import io.appium.java_client.android.AndroidDriver;
 import org.example.driver_manager.AppiumDriverManager;
+import org.example.utils.ADBLogUtils;
+import org.example.utils.AllureAttachmentUtils;
 import org.example.utils.RecordVideo;
 import org.example.utils.VideoUtil;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
@@ -29,7 +32,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void afterMethod() {
+    public void afterMethod(ITestResult result) {
         // Stop the screen recording after each test method
         String videoBase64 = driver.stopRecordingScreen();
 
@@ -38,6 +41,11 @@ public class BaseTest {
 
         // Attach the video to the Allure report
         VideoUtil.attachVideo(videoFilePath);
+        // Attach logs to Allure
+        String testName = result.getMethod().getMethodName();
+        // Capture ADB logs
+        String logFilePath = ADBLogUtils.captureADBLogs(testName);
+        AllureAttachmentUtils.attachADBLogs("ADB Logs for " + testName, logFilePath);
     }
 
 
