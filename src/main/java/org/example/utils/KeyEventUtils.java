@@ -22,14 +22,13 @@ public class KeyEventUtils {
     public void pressHome() throws InterruptedException {
         driver.pressKey(new KeyEvent(AndroidKey.HOME));
         Thread.sleep(1000);
-        Allure.step("HOME button clicked."); // Custom allure step message
+        Allure.step("Go to Home"); // Custom allure step message
         System.out.println("HOME button clicked.");
     }
 
     public void pressDown() throws InterruptedException {
         driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN));
         Thread.sleep(500);
-        Allure.step("DPAD_DOWN button clicked."); // Custom allure step message
         System.out.println("DPAD_DOWN button clicked.");
     }
 
