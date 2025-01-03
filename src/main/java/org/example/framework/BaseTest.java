@@ -32,7 +32,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void afterMethod(ITestResult result) {
+    public void afterMethod() {
         // Stop the screen recording after each test method
         String videoBase64 = driver.stopRecordingScreen();
 
@@ -47,7 +47,7 @@ public class BaseTest {
 
 
     @AfterClass
-    public void tearDown() throws Exception {
+    public void tearDown() {
         AppiumDriverManager.quitDriver();
     }
 }

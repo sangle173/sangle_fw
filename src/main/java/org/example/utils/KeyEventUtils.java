@@ -8,6 +8,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -59,6 +60,17 @@ public class KeyEventUtils {
     public void moveRight(int times) {
         for (int i = 0; i < times; i++) {
             driver.pressKey(new KeyEvent(AndroidKey.DPAD_RIGHT)); // Send DPAD_RIGHT key
+            try {
+                Thread.sleep(200); // Optional: Add a small delay between moves for smooth navigation
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public void moveDown(int times) {
+        for (int i = 0; i < times; i++) {
+            driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN)); // Send DPAD_RIGHT key
             try {
                 Thread.sleep(200); // Optional: Add a small delay between moves for smooth navigation
             } catch (InterruptedException e) {
@@ -142,5 +154,17 @@ public class KeyEventUtils {
         WebElement textBox = driver.findElement(AppiumBy.androidUIAutomator(locator));
         // Input the text into the TextBox
         textBox.sendKeys(textToInput);
+    }
+
+    // Simulate long press using adb
+    public static void longPressOKButtonWithADB() {
+        try {
+            System.out.println("Performing long press on OK button using ADB...");
+            Process process = new ProcessBuilder("adb", "shell", "input", "keyevent", "--longpress", "23").start();
+            process.waitFor();
+            System.out.println("Long press on OK button completed.");
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Error performing long press on OK button via ADB: " + e.getMessage());
+        }
     }
 }
