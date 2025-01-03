@@ -39,3 +39,4 @@ build/
 /allure-report
 /allure-results
 /test-recordings
+/logs

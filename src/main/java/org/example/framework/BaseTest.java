@@ -41,11 +41,8 @@ public class BaseTest {
 
         // Attach the video to the Allure report
         VideoUtil.attachVideo(videoFilePath);
-        // Attach logs to Allure
-        String testName = result.getMethod().getMethodName();
-        // Capture ADB logs
-        String logFilePath = ADBLogUtils.captureADBLogs(testName);
-        AllureAttachmentUtils.attachADBLogs("ADB Logs for " + testName, logFilePath);
+        String logFilePath = ADBLogUtils.captureADBLogs();
+        AllureAttachmentUtils.attachLog(logFilePath);
     }
 
 

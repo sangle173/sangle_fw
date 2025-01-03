@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ADBLogUtils {
-    public static String captureADBLogs(String testName) {
+    public static String captureADBLogs() {
         // Format the current date and time
         String currentDate = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 

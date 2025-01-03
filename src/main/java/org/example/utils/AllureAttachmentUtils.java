@@ -1,21 +1,17 @@
 package org.example.utils;
 
-import io.qameta.allure.Attachment;
+import io.qameta.allure.Allure;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AllureAttachmentUtils {
-    @Attachment(value = "{attachmentName}", type = "text/plain")
-    public static byte[] attachADBLogs(String attachmentName, String filePath) {
-        try {
-            File file = new File(filePath);
-            FileInputStream fis = new FileInputStream(file);
-            return fis.readAllBytes();
+    public static void attachLog(String logPath) {
+        try (FileInputStream fis = new FileInputStream(new File(logPath))) {
+            Allure.addAttachment("ADB Log Info", "txt", fis, ".txt");
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            System.err.println("Failed to attach log to Allure report: " + e.getMessage());
         }
     }
 }

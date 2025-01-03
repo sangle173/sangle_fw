@@ -5,7 +5,7 @@
     </listeners>
     <test name="Sample Tests">
         <classes>
-            <class name="tests.SampleTest" />
+            <class name="tests.WatchList" />
 <!--            <class name="web_tests.WebSampleTest" />-->
         </classes>
     </test>
