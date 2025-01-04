@@ -1,11 +1,9 @@
-package org.example.framework;
+package org.example.utils;
 
 import io.qameta.allure.Allure;
 import org.example.driver_manager.AppiumDriverManager;
-import org.example.driver_manager.SeleniumDriverManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 
 import java.io.ByteArrayInputStream;
 

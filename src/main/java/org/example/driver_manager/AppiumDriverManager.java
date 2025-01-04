@@ -2,19 +2,14 @@ package org.example.driver_manager;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.functions.ExpectedCondition;
-import io.appium.java_client.remote.MobileCapabilityType;
-import org.example.utils.KeyEventUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.example.config.ConfigReader;
+import org.example.utils.CapabilityLoader;
+import org.example.utils.Constant;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class AppiumDriverManager {
@@ -24,15 +19,14 @@ public class AppiumDriverManager {
     public static AndroidDriver getDriver() {
         if (driver == null) {
             try {
-                DesiredCapabilities caps = new DesiredCapabilities();
-                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-//                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "an4009099402d84501b13");
-                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
-                caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-                caps.setCapability("appWaitActivity", "*");
-                caps.setCapability("noReset", true);
+                // Load config file
+                String deviceName = ConfigReader.getProperty("deviceName");
+                // Load desired capabilities
+                DesiredCapabilities capabilities = CapabilityLoader.getCapabilities(deviceName, Constant.DEVICES_JSON_PATH);
 
-                driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+                // Fetch the Appium server URL from conf.properties
+                String appiumServerUrl = ConfigReader.getAppiumServerUrl();
+                driver = new AndroidDriver(new URL(appiumServerUrl), capabilities);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("Failed to initialize Appium driver.");
