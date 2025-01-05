@@ -3,6 +3,7 @@ package org.example.utils;
 import io.appium.java_client.android.AndroidDriver;
 import org.example.config.ConfigReader;
 import org.example.utils.enums.Direction;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
@@ -106,6 +107,71 @@ public class NavigationUtils {
     private static boolean isFocused(WebElement element) {
         // Check if the element is focused by checking the "focused" attribute
         return "true".equals(element.getAttribute("focused"));
+    }
+
+    /**
+     * Navigates to the specified menu. The navigation stops if the active element
+     * is found to be a child of the menu, or if the timeout is reached.
+     *
+     * @param driver The AndroidDriver instance.
+     * @param menuLocator The XPath locator for the menu.
+     * @param direction The direction to move (e.g., UP, DOWN, LEFT, RIGHT).
+     * @throws InterruptedException If interrupted while sleeping between movements.
+     */
+    public static void goToMenu(AndroidDriver driver, String menuLocator, Direction direction) throws InterruptedException {
+        // Get timeout from the configuration or use a default
+        int timeoutInSeconds = Integer.parseInt(ConfigReader.getProperty(Constant.MENU_NAVIGATION_TIMEOUT));
+        long startTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - startTime < TimeUnit.SECONDS.toMillis(timeoutInSeconds)) {
+            // Check if the active element is already a child of the menu
+            if (isActiveElementAChildOfMenu(driver, menuLocator)) {
+                System.out.println("Active element is already a child of the menu. Stopping navigation.");
+                return; // Exit if the active element is part of the menu
+            }
+
+            // Move in the specified direction
+            System.out.println("Active element not part of the menu. Moving " + direction + ".");
+            move(driver, direction);
+
+            // Allow some delay to simulate real navigation
+            Thread.sleep(Integer.parseInt(ConfigReader.getProperty(Constant.KEY_EVENT_DELAY)));
+        }
+
+        throw new IllegalStateException("Timeout reached: Unable to navigate to the menu.");
+    }
+
+    /**
+     * Checks if the active element is a child of the specified menu.
+     *
+     * @param menuLocator The locator for the menu to check.
+     * @param driver The AndroidDriver instance.
+     * @return true if the active element is a child of the specified menu, false otherwise.
+     */
+    public static boolean isActiveElementAChildOfMenu(AndroidDriver driver, String menuLocator) {
+        try {
+            // Get the active element
+            WebElement activeElement = driver.switchTo().activeElement();
+            if (activeElement == null) {
+                System.out.println("No active element found.");
+                return false;
+            }
+
+            // Find the menu element
+            WebElement menuElement = ElementUtils.findElement(driver,menuLocator);
+            if (menuElement == null) {
+                System.out.println("Menu element not found.");
+                return false;
+            }
+
+
+
+            // Check if the active element is a child of the menu
+            return menuElement.findElements(By.xpath(".//*")).contains(activeElement);
+        } catch (Exception e) {
+//            System.err.println("An error occurred while checking if active element is a child of menu: " + e.getMessage());
+            return false;
+        }
     }
 
 

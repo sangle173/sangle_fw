@@ -1,14 +1,15 @@
 package org.example.pages.homepage.menus;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.example.pages.BasePage;
 
-public class QuickSavesMenu {
+public class QuickSavesMenu extends BasePage {
 
     private AndroidDriver driver;
 
     // Constructor
     public QuickSavesMenu(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     // Add methods to interact with Source Row Menu here

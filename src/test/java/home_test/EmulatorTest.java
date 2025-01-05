@@ -1,8 +1,10 @@
 package home_test;
 
 import org.example.framework.BaseTest;
-import org.example.pages.homepage.Homepage;
+import org.example.pages.BasePage;
+import org.example.pages.homepage.HomePage;
 import org.example.pages.homepage.menus.UpNextMenu;
+import org.example.utils.DataUtils;
 import org.example.utils.ElementUtils;
 import org.example.utils.KeyEventUtils;
 import org.example.utils.NavigationUtils;
@@ -71,7 +73,7 @@ public class EmulatorTest extends BaseTest {
 
     @Test
     public void homepageTest() throws InterruptedException {
-        Homepage homepage = new Homepage(driver);
+        HomePage homepage = new HomePage(driver);
 
         // Navigate to the Up Next Menu
         UpNextMenu upNextMenu = homepage.goToUpNextMenu();
@@ -79,5 +81,23 @@ public class EmulatorTest extends BaseTest {
 
         // Navigate to the Source Row Menu
         homepage.goToSourceRowMenu().selectItem("[@text='Source Show']");
+    }
+
+
+    @Test
+    public void moveToMenuTest() throws InterruptedException {
+        KeyEventUtils.pressHome(driver);
+        String recentMenuLocator = "xpath=//android.widget.TextView[@resource-id=\"com.google.android.tvlauncher:id/items_title\" and @text=\"Recently Added\"]/preceding-sibling::android.widget.FrameLayout//android.widget.GridView[@resource-id=\"com.google.android.tvlauncher:id/items_list\"]";
+        NavigationUtils.goToMenu(driver,recentMenuLocator, Direction.DOWN);
+        NavigationUtils.moveToTheEnd(driver, Direction.RIGHT);
+        BasePage basePage = new BasePage(driver);
+        basePage.openContextMenu();
+    }
+
+    @Test
+    public void testRandomTVShow() throws InterruptedException {
+        System.out.println("Random Movie: " + DataUtils.getRandomMovie());
+        System.out.println("Random TV Show: " + DataUtils.getRandomTvShow());
+        System.out.println("Random Actor: " + DataUtils.getRandomActor());
     }
 }
