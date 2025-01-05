@@ -10,12 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
-public class VideoUtil {
+public class VideoUtils {
     // Method to generate a unique filename based on the current date and time
     public static String getVideoFileName() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = sdf.format(new Date()); // Current date and time
-        ensureDirectoryExists("test-recordings");
+        FileUtils.ensureDirectoryExists("test-recordings");
         return "test-recordings/testRecording_" + timestamp + ".mp4"; // Full filename
     }
 
@@ -40,14 +40,4 @@ public class VideoUtil {
         }
     }
 
-    private static void ensureDirectoryExists(String folderPath) {
-        File directory = new File(folderPath);
-        if (!directory.exists()) {
-            if (directory.mkdirs()) {
-                System.out.println("Directory created: " + folderPath);
-            } else {
-                System.out.println("Failed to create directory: " + folderPath);
-            }
-        }
-    }
 }

@@ -10,7 +10,7 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         String testName = result.getName();
         // Attach screenshot to Allure report
-        ScreenshotUtil.attachScreenshot("Failure Screenshot - " + testName);
+        ScreenshotUtils.attachScreenshot("Failure Screenshot - " + testName);
     }
 
     @Override

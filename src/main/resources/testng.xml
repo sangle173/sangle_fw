@@ -2,10 +2,11 @@
 <suite name="TestSuite">
     <listeners>
         <listener class-name="org.example.utils.TestListener"/>
+        <listener class-name="org.example.utils.AllureLogAttachmentListener" />
     </listeners>
     <test name="Sample Tests">
         <classes>
-            <class name="tests.WatchList" />
+            <class name="tests.WatchlistTest" />
 <!--            <class name="web_tests.WebSampleTest" />-->
         </classes>
     </test>

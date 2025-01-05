@@ -13,7 +13,8 @@ public class ADBLogUtils {
         String logFileName = "adb-log_" + currentDate + ".txt";
 
         // Define the full path for the log file
-        String logFilePath = "logs/" + logFileName;
+        FileUtils.ensureDirectoryExists("adb-logs");
+        String logFilePath = "adb-logs/" + logFileName;
         Process process = null;
 
         try {

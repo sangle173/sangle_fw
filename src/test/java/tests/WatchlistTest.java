@@ -2,11 +2,11 @@ package tests;
 
 import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Allure;
-import org.example.driver_manager.AppiumDriverManager;
 import org.example.framework.BaseTest;
 import org.example.utils.AllureAssert;
 import org.example.utils.KeyEventUtils;
 import org.example.utils.NavigationUtils;
+import org.example.utils.WaitUtils;
 import org.example.utils.enums.Direction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Listeners(org.example.utils.TestListener.class)
-public class WatchList extends BaseTest {
+public class WatchlistTest extends BaseTest {
 
     @Test
     public void createWatchlist() throws Exception {
@@ -44,7 +44,7 @@ public class WatchList extends BaseTest {
         WebElement watchlistLabel = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().text(\"Watchlists\")"));
         AllureAssert.assertTrue(watchlistLabel.isDisplayed(), "watchList Menu is displayed");
         String createdWatchlistLocator = String.format("new UiSelector().text(\"%s\")", newWatchlistName);
-        AppiumDriverManager.waitForElementToBeVisible(createdWatchlistLocator);
+        WaitUtils.waitForElementToBeVisible(driver,createdWatchlistLocator);
         WebElement createWatchlistElement = driver.findElement(AppiumBy.androidUIAutomator(createdWatchlistLocator));
         AllureAssert.assertTrue(createWatchlistElement.isDisplayed(), "Check the new watchList Menu is displayed");
         NavigationUtils.moveToElement(driver,String.format("//android.widget.TextView[@text=\"%s\"]/../../../..", newWatchlistName),Direction.LEFT);

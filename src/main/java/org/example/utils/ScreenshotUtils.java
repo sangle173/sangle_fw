@@ -7,7 +7,7 @@ import org.openqa.selenium.TakesScreenshot;
 
 import java.io.ByteArrayInputStream;
 
-public class ScreenshotUtil {
+public class ScreenshotUtils {
     // Capture and attach the screenshot to Allure
     public static void attachScreenshot(String screenshotName) {
         try {

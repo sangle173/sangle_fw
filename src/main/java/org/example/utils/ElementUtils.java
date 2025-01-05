@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Collections;
 import java.util.List;
 
-public class ElementUtil {
+public class ElementUtils {
 
     /**
      * Finds a single element based on the locator strategy.

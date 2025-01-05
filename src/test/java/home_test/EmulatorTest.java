@@ -3,7 +3,7 @@ package home_test;
 import org.example.framework.BaseTest;
 import org.example.pages.homepage.Homepage;
 import org.example.pages.homepage.menus.UpNextMenu;
-import org.example.utils.ElementUtil;
+import org.example.utils.ElementUtils;
 import org.example.utils.KeyEventUtils;
 import org.example.utils.NavigationUtils;
 import org.example.utils.enums.Direction;
@@ -17,13 +17,13 @@ public class EmulatorTest extends BaseTest {
     @Test
     public void moveDownTest() throws Exception {
         String locator = "xpath=//android.widget.TextView[@content-desc=\"Phone\"]";
-        WebElement element = ElementUtil.findElement(driver, locator);
+        WebElement element = ElementUtils.findElement(driver, locator);
         System.out.println(element.isDisplayed());
 
         String message = "uiautomator=new UiSelector().text(\"Messaging\")";
-        System.out.println(ElementUtil.findElement(driver, message).isDisplayed());
+        System.out.println(ElementUtils.findElement(driver, message).isDisplayed());
         String robot = "className=android.widget.TextView";
-        System.out.println(ElementUtil.findElement(driver, robot).isDisplayed());
+        System.out.println(ElementUtils.findElement(driver, robot).isDisplayed());
     }
 
     @Test
@@ -32,10 +32,10 @@ public class EmulatorTest extends BaseTest {
         String customize = "id=com.google.android.tvlauncher:id/configure_tab_card";
         String feedback = "com.google.android.tvlauncher:id/send_feedback_card";
         NavigationUtils.moveToElement(driver, customize, Direction.DOWN);
-        WebElement customizeElement = ElementUtil.findElement(driver, customize);
+        WebElement customizeElement = ElementUtils.findElement(driver, customize);
         Assert.assertTrue(Boolean.parseBoolean(customizeElement.getAttribute("focused")), "customize is focused");
         NavigationUtils.moveToElement(driver, feedback, Direction.RIGHT);
-        WebElement feedbackElement = ElementUtil.findElement(driver, feedback);
+        WebElement feedbackElement = ElementUtils.findElement(driver, feedback);
         Assert.assertTrue(Boolean.parseBoolean(feedbackElement.getAttribute("focused")), "feedbackElement is focused");
         System.out.println(feedbackElement.getAttribute("focused"));
     }
@@ -46,7 +46,7 @@ public class EmulatorTest extends BaseTest {
         WebElement currentActive = driver.switchTo().activeElement();
         String customize = "id=com.google.android.tvlauncher:id/send_feedback_card";
         NavigationUtils.moveToElement(driver, customize, Direction.DOWN);
-        WebElement customizeEle = ElementUtil.findElement(driver,customize);
+        WebElement customizeEle = ElementUtils.findElement(driver,customize);
         System.out.println(currentActive.equals(customizeEle));
     }
 

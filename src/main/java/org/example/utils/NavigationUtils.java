@@ -30,7 +30,7 @@ public class NavigationUtils {
                 WebElement currentActiveElement = driver.switchTo().activeElement();
 
                 // Find the target element using the locator
-                WebElement targetElement = ElementUtil.findElement(driver, locator);
+                WebElement targetElement = ElementUtils.findElement(driver, locator);
 
                 // If the target element is not found, throw an exception
                 if (targetElement == null) {

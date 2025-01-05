@@ -5,8 +5,8 @@ import org.example.config.ConfigReader;
 import org.example.driver_manager.AppiumDriverManager;
 import org.example.utils.ADBLogUtils;
 import org.example.utils.AllureAttachmentUtils;
-import org.example.utils.Constant;
-import org.example.utils.VideoUtil;
+import org.example.utils.AllureLogAttachmentListener;
+import org.example.utils.VideoUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -29,7 +29,7 @@ public class BaseTest {
         if (ConfigReader.isVideoRecordingEnabled()) {
             // Start screen recording before each test method
             driver.startRecordingScreen();
-            videoFilePath = VideoUtil.getVideoFileName();
+            videoFilePath = VideoUtils.getVideoFileName();
         }
     }
 
@@ -39,15 +39,15 @@ public class BaseTest {
         if (ConfigReader.isVideoRecordingEnabled()) {
             String videoBase64 = driver.stopRecordingScreen();
             // Save the video file with the generated filename
-            VideoUtil.saveVideo(videoBase64, videoFilePath);
+            VideoUtils.saveVideo(videoBase64, videoFilePath);
             // Attach the video to the Allure report
-            VideoUtil.attachVideo(videoFilePath);
+            VideoUtils.attachVideo(videoFilePath);
         }
 
         String logFilePath = ADBLogUtils.captureADBLogs();
         AllureAttachmentUtils.attachLog(logFilePath);
+        AllureLogAttachmentListener.attachLogsToAllure();
     }
-
 
     @AfterClass
     public void tearDown() {
