@@ -5,9 +5,9 @@ import io.qameta.allure.Allure;
 import org.example.driver_manager.AppiumDriverManager;
 import org.example.framework.BaseTest;
 import org.example.utils.AllureAssert;
-import org.example.utils.Constant;
 import org.example.utils.KeyEventUtils;
-import org.example.utils.NavigationUtil;
+import org.example.utils.NavigationUtils;
+import org.example.utils.enums.Direction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -25,7 +25,7 @@ public class WatchList extends BaseTest {
         KeyEventUtils.pressHome(driver);
         String firstItemOnWatchlistMenu = "xpath=//android.view.View[@resource-id='home:content_guide:watchlists:item_0']/..";
 
-        NavigationUtil.moveToItemOnMenu(driver,firstItemOnWatchlistMenu,Constant.DIRECTION_DOWN);
+        NavigationUtils.moveToElement(driver,firstItemOnWatchlistMenu, Direction.DOWN);
         Allure.step("Move To Watchlist Menu");
 
         List<WebElement> watchlistNo = driver.findElements(By.xpath("//android.view.View[contains(@resource-id, 'home:content_guide:watchlists:item')]"));
@@ -47,7 +47,7 @@ public class WatchList extends BaseTest {
         AppiumDriverManager.waitForElementToBeVisible(createdWatchlistLocator);
         WebElement createWatchlistElement = driver.findElement(AppiumBy.androidUIAutomator(createdWatchlistLocator));
         AllureAssert.assertTrue(createWatchlistElement.isDisplayed(), "Check the new watchList Menu is displayed");
-        NavigationUtil.moveToItemOnMenu(driver,String.format("//android.widget.TextView[@text=\"%s\"]/../../../..", newWatchlistName),Constant.DIRECTION_LEFT);
+        NavigationUtils.moveToElement(driver,String.format("//android.widget.TextView[@text=\"%s\"]/../../../..", newWatchlistName),Direction.LEFT);
         KeyEventUtils.longPressOKButtonWithADB();
         List<WebElement> noOfContextItem = driver.findElements(By.xpath("//android.view.ViewGroup[@resource-id=\"android:id/content\"]/android.view.View/android.view.View/android.view.View"));
         KeyEventUtils.pressDown(driver,3);

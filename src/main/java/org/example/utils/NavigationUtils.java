@@ -2,12 +2,12 @@ package org.example.utils;
 
 import io.appium.java_client.android.AndroidDriver;
 import org.example.config.ConfigReader;
-import org.openqa.selenium.Point;
+import org.example.utils.enums.Direction;
 import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 
-public class NavigationUtil {
+public class NavigationUtils {
     /**
      * Moves in the specified direction and checks if the element is focused.
      *
@@ -16,7 +16,7 @@ public class NavigationUtil {
      * @param direction the direction to move: "right", "left", "up", "down"
      * @throws InterruptedException if the thread is interrupted
      */
-    public static void moveToItemOnMenu(AndroidDriver driver, String locator, String direction) throws InterruptedException {
+    public static void moveToElement(AndroidDriver driver, String locator, Direction direction) throws InterruptedException {
         // Define the timeout (in seconds)
         int timeout = Integer.parseInt(ConfigReader.getProperty(Constant.MENU_NAVIGATION_TIMEOUT));
         long startTime = System.currentTimeMillis();
@@ -67,6 +67,42 @@ public class NavigationUtil {
         throw new AssertionError("Failed to move to item within the specified timeout.");
     }
 
+    public static void moveToTheEnd(AndroidDriver driver, Direction direction) throws InterruptedException {
+        // Define the timeout (in seconds)
+        System.out.println("Moving to the end of the row/menu in the " + direction + " direction.");
+        int timeout = Integer.parseInt(ConfigReader.getProperty(Constant.MENU_NAVIGATION_TIMEOUT));
+        long startTime = System.currentTimeMillis();
+
+        // Initialize variables to track movement
+        WebElement previousElement = null;
+
+        while (System.currentTimeMillis() - startTime < TimeUnit.SECONDS.toMillis(timeout)) {
+            try {
+                // Get the current active element
+                WebElement currentActiveElement = driver.switchTo().activeElement();
+
+                // Check if the active element has not changed
+                if (previousElement != null && previousElement.equals(currentActiveElement)) {
+                    System.out.println("Reached the end of the row/menu.");
+                    return; // Exit the method as the end of the row/menu is reached
+                }
+
+                // Perform a movement in the specified direction
+                System.out.println("Moving " + direction + ".");
+                move(driver, direction);
+
+                // Update the previous element
+                previousElement = currentActiveElement;
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                move(driver, direction); // Keep moving
+            }
+        }
+
+        // If the timeout is reached without detecting the end of the row/menu
+        throw new AssertionError("Failed to reach the end of the row/menu within the specified timeout.");
+    }
+
     private static boolean isFocused(WebElement element) {
         // Check if the element is focused by checking the "focused" attribute
         return "true".equals(element.getAttribute("focused"));
@@ -79,27 +115,23 @@ public class NavigationUtil {
      * @param driver    AndroidDriver instance to interact with the app
      * @param direction the direction to move: "right", "left", "up", "down"
      */
-    private static void move(AndroidDriver driver, String direction) throws InterruptedException {
-        switch (direction.toLowerCase()) {
-            case Constant.DIRECTION_RIGHT:
-                System.out.println("Moving right.");
+    private static void move(AndroidDriver driver, Direction direction) {
+        switch (direction) {
+            case RIGHT:
                 KeyEventUtils.pressRight(driver);
                 break;
-            case Constant.DIRECTION_LEFT:
-                System.out.println("Moving left.");
+            case LEFT:
                 KeyEventUtils.pressLeft(driver);
                 break;
-            case Constant.DIRECTION_UP:
-                System.out.println("Moving up.");
+            case UP:
                 KeyEventUtils.pressUp(driver);
                 break;
-            case Constant.DIRECTION_DOWN:
-                System.out.println("Moving down.");
+            case DOWN:
                 KeyEventUtils.pressDown(driver);
                 break;
             default:
-                System.err.println("Invalid direction: " + direction);
-                break;
+                throw new IllegalArgumentException("Unsupported direction: " + direction);
         }
     }
+
 }
