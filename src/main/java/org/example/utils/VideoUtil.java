@@ -15,6 +15,7 @@ public class VideoUtil {
     public static String getVideoFileName() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = sdf.format(new Date()); // Current date and time
+        ensureDirectoryExists("test-recordings");
         return "test-recordings/testRecording_" + timestamp + ".mp4"; // Full filename
     }
 
@@ -36,6 +37,17 @@ public class VideoUtil {
             Allure.addAttachment("Test Recording", "video/mp4", fis, ".mp4");
         } catch (IOException e) {
             System.err.println("Failed to attach video to Allure report: " + e.getMessage());
+        }
+    }
+
+    private static void ensureDirectoryExists(String folderPath) {
+        File directory = new File(folderPath);
+        if (!directory.exists()) {
+            if (directory.mkdirs()) {
+                System.out.println("Directory created: " + folderPath);
+            } else {
+                System.out.println("Failed to create directory: " + folderPath);
+            }
         }
     }
 }

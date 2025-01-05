@@ -17,7 +17,6 @@ import java.io.IOException;
 public class BaseTest {
     protected AndroidDriver driver;
     private String videoFilePath;
-    boolean isVideoRecordingEnabled;
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -26,13 +25,10 @@ public class BaseTest {
 
     @BeforeMethod
     public void beforeMethod() throws IOException {
-        // Start screen recording before each test method
-        driver.startRecordingScreen();
-        // Load the configuration file
-        isVideoRecordingEnabled = ConfigReader.isVideoRecordingEnabled();
-
         // Generate dynamic video filename with date and time
-        if (isVideoRecordingEnabled) {
+        if (ConfigReader.isVideoRecordingEnabled()) {
+            // Start screen recording before each test method
+            driver.startRecordingScreen();
             videoFilePath = VideoUtil.getVideoFileName();
         }
     }
@@ -40,7 +36,7 @@ public class BaseTest {
     @AfterMethod
     public void afterMethod() {
         // Stop video recording if enabled
-        if (isVideoRecordingEnabled) {
+        if (ConfigReader.isVideoRecordingEnabled()) {
             String videoBase64 = driver.stopRecordingScreen();
             // Save the video file with the generated filename
             VideoUtil.saveVideo(videoBase64, videoFilePath);

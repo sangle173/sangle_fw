@@ -6,6 +6,7 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import org.example.config.ConfigReader;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
@@ -13,74 +14,150 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class KeyEventUtils {
-    private AndroidDriver driver;
 
-    public KeyEventUtils(AndroidDriver driver) {
-        this.driver = driver;
+    // Prevent instantiation
+    private KeyEventUtils() {}
+
+    // Press a single key once
+    public static void pressKey(AndroidDriver driver, AndroidKey key, String description) {
+        Allure.step(description, () -> {
+            driver.pressKey(new KeyEvent(key));
+            Thread.sleep(Integer.parseInt(ConfigReader.getProperty(Constant.KEY_EVENT_DELAY)));
+        });
     }
 
-    public void pressHome() throws InterruptedException {
-        driver.pressKey(new KeyEvent(AndroidKey.HOME));
-        Thread.sleep(1000);
-        Allure.step("Go to Home"); // Custom allure step message
-        System.out.println("HOME button clicked.");
-    }
-
-    public void pressDown() throws InterruptedException {
-        driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN));
-        Thread.sleep(500);
-        System.out.println("DPAD_DOWN button clicked.");
-    }
-
-    @Step("DPAD_RIGHT button clicked.")
-    public void pressRight() throws InterruptedException {
-        Thread.sleep(500);
-        driver.pressKey(new KeyEvent(AndroidKey.DPAD_RIGHT));
-        System.out.println("DPAD_RIGHT button clicked.");
-    }
-
-    public void pressLeft() throws InterruptedException {
-        Thread.sleep(500);
-        driver.pressKey(new KeyEvent(AndroidKey.DPAD_LEFT));
-        System.out.println("DPAD_LEFT button clicked.");
-    }
-
-    public void pressUp() {
-        driver.pressKey(new KeyEvent(AndroidKey.DPAD_UP));
-        System.out.println("DPAD_UP button clicked.");
-    }
-
-    public void pressCenter() throws InterruptedException {
-        Thread.sleep(500);
-        driver.pressKey(new KeyEvent(AndroidKey.DPAD_CENTER));
-        System.out.println("DPAD_CENTER button clicked.");
-    }
-
-    public void moveRight(int times) {
-        for (int i = 0; i < times; i++) {
-            driver.pressKey(new KeyEvent(AndroidKey.DPAD_RIGHT)); // Send DPAD_RIGHT key
-            try {
-                Thread.sleep(200); // Optional: Add a small delay between moves for smooth navigation
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+    // Press a single key multiple times
+    public static void pressKey(AndroidDriver driver, AndroidKey key, String description, int times) {
+        Allure.step(String.format("Pressing %s key %d times", key.name(), times), () -> {
+            for (int i = 0; i < times; i++) {
+                driver.pressKey(new KeyEvent(key));
+                Thread.sleep(Integer.parseInt(ConfigReader.getProperty(Constant.KEY_EVENT_DELAY)));
             }
-        }
+        });
     }
 
-    public void moveDown(int times) {
-        for (int i = 0; i < times; i++) {
-            driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN)); // Send DPAD_RIGHT key
-            try {
-                Thread.sleep(200); // Optional: Add a small delay between moves for smooth navigation
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
+    // Specific key press methods
+    public static void pressHome(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.HOME, "Pressing Home Key");
+    }
+
+    public static void pressHome(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.HOME, "Pressing Home Key", times);
+    }
+
+    // Power key
+    public static void pressPower(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.POWER, "Pressing Power Key");
+    }
+
+    public static void pressPower(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.POWER, "Pressing Power Key", times);
+    }
+
+    // Volume control keys
+    public static void pressVolumeUp(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.VOLUME_UP, "Pressing Volume Up Key");
+    }
+
+    public static void pressVolumeUp(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.VOLUME_UP, "Pressing Volume Up Key", times);
+    }
+
+    public static void pressVolumeDown(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.VOLUME_DOWN, "Pressing Volume Down Key");
+    }
+
+    public static void pressVolumeDown(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.VOLUME_DOWN, "Pressing Volume Down Key", times);
+    }
+
+    public static void pressMute(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.VOLUME_MUTE, "Pressing Mute Key");
+    }
+
+    // Directional keys
+    public static void pressRight(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.DPAD_RIGHT, "Pressing Right Key");
+    }
+
+    public static void pressRight(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.DPAD_RIGHT, "Pressing Right Key", times);
+    }
+
+    public static void pressLeft(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.DPAD_LEFT, "Pressing Left Key");
+    }
+
+    public static void pressLeft(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.DPAD_LEFT, "Pressing Left Key", times);
+    }
+
+    public static void pressUp(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.DPAD_UP, "Pressing Up Key");
+    }
+
+    public static void pressUp(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.DPAD_UP, "Pressing Up Key", times);
+    }
+
+    public static void pressDown(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.DPAD_DOWN, "Pressing Down Key");
+    }
+
+    public static void pressDown(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.DPAD_DOWN, "Pressing Down Key", times);
+    }
+
+    // Select key
+    public static void pressCenter(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.DPAD_CENTER, "Pressing Center Key (OK)");
+    }
+
+    public static void pressCenter(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.DPAD_CENTER, "Pressing Center Key (OK)", times);
+    }
+
+    // Channel control keys
+    public static void pressChannelUp(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_NEXT, "Pressing Channel Up Key");
+    }
+
+    public static void pressChannelUp(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.MEDIA_NEXT, "Pressing Channel Up Key", times);
+    }
+
+    public static void pressChannelDown(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_PREVIOUS, "Pressing Channel Down Key");
+    }
+
+    public static void pressChannelDown(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.MEDIA_PREVIOUS, "Pressing Channel Down Key", times);
+    }
+
+    // Media control keys
+    public static void pressPlay(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_PLAY, "Pressing Play Key");
+    }
+
+    public static void pressPause(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_PAUSE, "Pressing Pause Key");
+    }
+
+    public static void pressStop(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_STOP, "Pressing Stop Key");
+    }
+
+    public static void pressRewind(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_REWIND, "Pressing Rewind Key");
+    }
+
+    public static void pressFastForward(AndroidDriver driver) {
+        pressKey(driver, AndroidKey.MEDIA_FAST_FORWARD, "Pressing Fast Forward Key");
     }
 
 
     // Method to input text by pressing the Android keys
-    public void inputText(String text) {
+    public void inputText(AndroidDriver driver,String text) {
         for (char c : text.toCharArray()) {
             AndroidKey key = getAndroidKeyForCharacter(c);
             if (key != null) {
@@ -136,7 +213,7 @@ public class KeyEventUtils {
     }
 
     // Method to input "Auto" + current date
-    public String getUniqueName() {
+    public static String getUniqueName() {
         // Get current date and time
         LocalDateTime now = LocalDateTime.now();
 
@@ -149,7 +226,7 @@ public class KeyEventUtils {
     }
 
     // Method to input text into the TextBox
-    public void enterWatchlistName(String locator, String textToInput) {
+    public static void enterWatchlistName(AndroidDriver driver, String locator, String textToInput) {
         WebElement textBox = driver.findElement(AppiumBy.androidUIAutomator(locator));
         // Input the text into the TextBox
         textBox.sendKeys(textToInput);

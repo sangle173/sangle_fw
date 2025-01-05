@@ -12,10 +12,10 @@ public class ScreenshotUtil {
     public static void attachScreenshot(String screenshotName) {
         try {
             byte[] screenshotBytes = ((TakesScreenshot) AppiumDriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
-            System.out.println("Sc capture");
+            System.out.println("Screenshot capture ...");
             Allure.addAttachment(screenshotName, "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
         } catch (Exception e) {
             System.err.println("Failed to capture screenshot: " + e.getMessage());
         }
-    }
+    }   
 }
