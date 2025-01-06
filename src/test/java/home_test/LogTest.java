@@ -1,7 +1,7 @@
 package home_test;
 
 import io.qameta.allure.Allure;
-import org.example.framework.BaseTest;
+import base.BaseTest;
 import org.example.utils.LogUtils;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;

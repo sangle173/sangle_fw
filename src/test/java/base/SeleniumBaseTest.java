@@ -1,4 +1,4 @@
-package org.example.framework;
+package base;
 
 import org.example.driver_manager.SeleniumDriverManager;
 import org.testng.annotations.AfterMethod;

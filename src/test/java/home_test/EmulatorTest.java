@@ -1,6 +1,6 @@
 package home_test;
 
-import org.example.framework.BaseTest;
+import base.BaseTest;
 import org.example.pages.BasePage;
 import org.example.pages.homepage.HomePage;
 import org.example.pages.homepage.menus.UpNextMenu;

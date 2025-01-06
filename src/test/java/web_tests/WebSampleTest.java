@@ -1,7 +1,7 @@
 package web_tests;
 
 import org.example.driver_manager.SeleniumDriverManager;
-import org.example.framework.SeleniumBaseTest;
+import base.SeleniumBaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
