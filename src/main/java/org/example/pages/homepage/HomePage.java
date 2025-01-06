@@ -13,7 +13,7 @@ public class HomePage extends BasePage {
 
     // Locators for menus
     private static final String UP_NEXT_MENU = "//xpath_to_up_next_menu";
-    private static final String SOURCE_ROW_MENU = "//xpath_to_source_row_menu";
+    private static final String SOURCE_ROW_MENU = "xpath=//android.view.View[@resource-id=\"home:app_rail\"]/android.view.View";
     private static final String QUICK_SAVES_MENU = "//xpath_to_quick_saves_menu";
     private static final String WATCHLIST_MENU = "//xpath_to_watchlist_menu";
 

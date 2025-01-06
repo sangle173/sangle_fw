@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class WaitUtils {
     private static final int MAX_RETRIES = 5;  // Maximum retries for waiting for device to be available
-    private static final int RETRY_INTERVAL_SECONDS = 10;  // Interval between retries
+    private static final int RETRY_INTERVAL_SECONDS = 2;  // Interval between retries
     // Method to reboot the device using adb command
     public static void rebootDevice() throws IOException {
         System.out.println("Rebooting the device...");
@@ -50,7 +50,7 @@ public class WaitUtils {
     }
 
     // Method to check if device is available (based on the adb devices output)
-    private static boolean isDeviceAvailable(Process process) throws IOException {
+    public static boolean isDeviceAvailable(Process process) throws IOException {
         byte[] output = process.getInputStream().readAllBytes();
         String outputString = new String(output);
 

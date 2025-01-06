@@ -125,6 +125,13 @@ public class KeyEventUtils {
     public static void pressChannelUp(AndroidDriver driver, int times) {
         pressKey(driver, AndroidKey.MEDIA_NEXT, "Pressing Channel Up Key", times);
     }
+    public static void pressBack(AndroidDriver driver) {
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
+    }
+
+    public static void pressBack(AndroidDriver driver, int times) {
+        pressKey(driver, AndroidKey.BACK, "Pressing Back Key", times);
+    }
 
     public static void pressChannelDown(AndroidDriver driver) {
         pressKey(driver, AndroidKey.MEDIA_PREVIOUS, "Pressing Channel Down Key");

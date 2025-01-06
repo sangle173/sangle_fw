@@ -29,4 +29,14 @@ public enum Direction {
         }
         throw new IllegalArgumentException("Invalid direction: " + direction);
     }
+
+    public Direction opposite() {
+        switch (this) {
+            case RIGHT: return LEFT;
+            case LEFT: return RIGHT;
+            case UP: return DOWN;
+            case DOWN: return UP;
+            default: throw new IllegalArgumentException("Unknown direction: " + this);
+        }
+    }
 }

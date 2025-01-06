@@ -181,7 +181,7 @@ public class NavigationUtils {
      * @param driver    AndroidDriver instance to interact with the app
      * @param direction the direction to move: "right", "left", "up", "down"
      */
-    private static void move(AndroidDriver driver, Direction direction) {
+    public static void move(AndroidDriver driver, Direction direction) {
         switch (direction) {
             case RIGHT:
                 KeyEventUtils.pressRight(driver);
