@@ -1,12 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestSuite">
+<suite name="BVT Testing">
     <listeners>
         <listener class-name="org.example.utils.TestListener"/>
         <listener class-name="org.example.utils.AllureLogAttachmentListener" />
     </listeners>
-    <test name="Sample Tests">
+    <test name="Build Verification Test">
         <classes>
-            <class name="tests.WatchlistTest" />
+            <class name="pw_test.BvtTesting" />
 <!--            <class name="web_tests.WebSampleTest" />-->
         </classes>
     </test>

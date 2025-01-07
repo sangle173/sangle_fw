@@ -31,6 +31,8 @@ public class BaseTest {
             driver.startRecordingScreen();
             videoFilePath = VideoUtils.getVideoFileName();
         }
+        AllureAttachmentUtils.attachADBCommandResult("#NSUD Build", "adb shell getprop ro.build.fingerprint");
+        AllureAttachmentUtils.attachADBCommandResult("Apex Version", "adb shell cat /apex/com.sonos.player/VERSION");
     }
 
     @AfterMethod

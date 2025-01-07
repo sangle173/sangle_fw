@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ElementUtils {
 
@@ -85,6 +86,16 @@ public class ElementUtils {
         }
 
         return (elements != null && !elements.isEmpty()) ? elements : Collections.emptyList(); // Return empty list if no elements found
+    }
+
+    public static List<WebElement> getFirstChildElement(WebElement element) {
+        try {
+            // Use XPath to find the first child element
+            return element.findElements(By.xpath("./*"));
+        } catch (NoSuchElementException e) {
+            System.out.println("No child elements found in the menu element.");
+            return null;
+        }
     }
 }
 
