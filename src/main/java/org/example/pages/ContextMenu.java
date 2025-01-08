@@ -42,9 +42,9 @@ public class ContextMenu {
         }
     }
 
-    public void moveAppDetailsOptionAndOpen() throws InterruptedException {
+    public void moveToAppDetailsOptionAndOpen() throws InterruptedException {
         WaitUtils.waitForElementToBeVisible(driver, APP_DETAILS_LOCATOR);
-        NavigationUtils.moveToElement(driver, APP_DETAILS_LOCATOR, Direction.DOWN);
+        KeyEventUtils.pressDown(driver,2);
         KeyEventUtils.pressCenter(driver);
     }
 

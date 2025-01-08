@@ -200,4 +200,23 @@ public class NavigationUtils {
         }
     }
 
+    public static boolean checkEndOfRowWithoutMoving(AndroidDriver driver, Direction direction) throws InterruptedException {
+        WebElement activeElementBefore = driver.switchTo().activeElement(); // Get the current active element
+
+        // Simulate a move in the given direction
+        NavigationUtils.move(driver, direction);
+
+        // Get the active element after the move
+        WebElement activeElementAfter = driver.switchTo().activeElement();
+
+        // Determine if the end of the row is reached
+        if (activeElementBefore.equals(activeElementAfter)) {
+            // If the element didn't change, it means we are at the end of the row
+            return true;
+        }
+
+        // Return false if the element changed
+        return false;
+    }
+
 }

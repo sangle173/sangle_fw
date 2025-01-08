@@ -2,6 +2,7 @@ package home_test;
 
 import io.qameta.allure.Allure;
 import base.BaseTest;
+import org.example.utils.AllureAssert;
 import org.example.utils.LogUtils;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -15,5 +16,11 @@ public class LogTest extends BaseTest {
         LogUtils.info("Starting the test...");
         LogUtils.debug("This is a debug message.");
         LogUtils.error("An error occurred!", new RuntimeException("Sample exception"));
+    }
+
+    @Test
+    public void testAppLaunch() {
+        // Verify that the app launches correctly
+        String activity = driver.currentActivity();
     }
 }

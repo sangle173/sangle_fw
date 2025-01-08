@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Allure;
 import org.example.utils.*;
@@ -9,6 +10,7 @@ import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AppPage extends BasePage {
 
@@ -63,8 +65,19 @@ public class AppPage extends BasePage {
         return Boolean.parseBoolean(ElementUtils.findElement(driver, ADD_APP_LOCATOR).getAttribute("focused"));
     }
 
+    public String getAppActiveName() {
+        Assert.assertTrue(isRemoveButtonDisplayed(), "Verify remove button is displayed");
+        Assert.assertTrue(isOpenButtonDisplayed(), "Verify open button is displayed");
+        Assert.assertTrue(isRestartButtonDisplayed(), "Verify restart button is displayed");
+        String appActiveName = null;
+        if (ElementUtils.findElement(driver, APP_NAME_LOCATOR).isDisplayed()) {
+            appActiveName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
+        }
+        return appActiveName;
+    }
 
-    public List<String> navigateToAndAddAppThroughGridApps() throws InterruptedException {
+
+    public List<String> navigateToAndAddApp() throws InterruptedException {
         List<String> appActiveList = new ArrayList<>();
         int numberOfRows = NO_OF_ROW; // Number of rows in the grid
         boolean moveRight = true; // Initial direction for movement
@@ -79,7 +92,7 @@ public class AppPage extends BasePage {
                 appActiveList.add(addAppAction());
 
                 // Check if unable to move further in the current direction
-                isEndOfRow = checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
+                isEndOfRow = NavigationUtils.checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
             }
 
             // If it's the last row, stop navigating
@@ -108,7 +121,7 @@ public class AppPage extends BasePage {
                 removeAppAction();
 
                 // Check if unable to move further in the current direction
-                isEndOfRow = checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
+                isEndOfRow = NavigationUtils.checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
             }
 
             // If it's the last row, stop navigating
@@ -120,62 +133,6 @@ public class AppPage extends BasePage {
             NavigationUtils.move(driver, Direction.DOWN);
             moveRight = !moveRight; // Alternate direction for the next row
         }
-    }
-
-    public List<String> navigateToAndVerifyTheAppActiveProperly(List<String> appActiveList) throws InterruptedException {
-        int numberOfRows = 1; // Number of rows in the grid
-        //Ensure start from first item
-        NavigationUtils.moveToTheEnd(driver, Direction.LEFT);
-        boolean moveRight = true; // Initial direction for movement
-
-        // Iterate through each row
-        for (int row = 0; row < numberOfRows; row++) {
-            boolean isEndOfRow = false;
-
-            // Navigate through each app in the current row
-            while (!isEndOfRow) {
-                // Perform action on the current app
-                ContextMenu contextMenu = new BasePage(driver).openContextMenu();
-                assert contextMenu.isAppDetailsOptionDisplayed();
-                contextMenu.moveAppDetailsOptionAndOpen();
-                String appActiveName = ElementUtils.findElement(driver,APP_NAME_LOCATOR).getText();
-                assert appActiveList.contains(appActiveName);
-                Assert.assertTrue(appActiveList.contains(appActiveName), "The app " + appActiveName + " active properly.");
-                // Press "Back" to return to the grid
-                KeyEventUtils.pressBack(driver);
-                // Check if unable to move further in the current direction
-                isEndOfRow = checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
-            }
-
-            // If it's the last row, stop navigating
-            if (row == numberOfRows - 1) {
-                break;
-            }
-
-            // Move down to the next row and change direction
-            NavigationUtils.move(driver, Direction.DOWN);
-            moveRight = !moveRight; // Alternate direction for the next row
-        }
-        return appActiveList;
-    }
-
-    private boolean checkEndOfRowWithoutMoving(AndroidDriver driver, Direction direction) throws InterruptedException {
-        WebElement activeElementBefore = driver.switchTo().activeElement(); // Get the current active element
-
-        // Simulate a move in the given direction
-        NavigationUtils.move(driver, direction);
-
-        // Get the active element after the move
-        WebElement activeElementAfter = driver.switchTo().activeElement();
-
-        // Determine if the end of the row is reached
-        if (activeElementBefore.equals(activeElementAfter)) {
-            // If the element didn't change, it means we are at the end of the row
-            return true;
-        }
-
-        // Return false if the element changed
-        return false;
     }
 
 
@@ -187,10 +144,9 @@ public class AppPage extends BasePage {
             KeyEventUtils.pressCenter(driver);
             assert isOpenButtonDisplayed();
             appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
+            Allure.step("Adding the (" + appName + ") app...");
         }
-        AllureAssert.assertTrue(isOpenButtonDisplayed(), "Verify the Open button is displayed");
-        AllureAssert.assertTrue(isRestartButtonDisplayed(), "Verify the Restart button is displayed");
-//        AllureAssert.assertTrue(isRemoveButtonDisplayed(), "Verify the Remove button is displayed");
+        AllureAssert.assertTrue(isOpenButtonDisplayed() && isRestartButtonDisplayed() && isRemoveButtonDisplayed(), "Verify the (" + appName + ") is installed");
 
         // Press "Back" to return to the grid
         KeyEventUtils.pressBack(driver);
@@ -201,11 +157,14 @@ public class AppPage extends BasePage {
     private void removeAppAction() throws InterruptedException {
         // Press "Enter" to select the current app
         KeyEventUtils.pressCenter(driver);
+        String appName = null;
         if (isRemoveButtonDisplayed()) {
+            appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
             NavigationUtils.moveToElement(driver, "xpath=//android.widget.TextView[@text=\"Remove\"]/..", Direction.RIGHT);
+            Allure.step("Removing the (" + appName + ") app ...");
             KeyEventUtils.pressCenter(driver);
         }
-        AllureAssert.assertTrue(isAddAppButtonDisplayed(), "Verify the Add button is displayed");
+        AllureAssert.assertTrue(isAddAppButtonDisplayed(), "Verify the (" +appName + ") is uninstalled.");
         // Press "Back" to return to the grid
         KeyEventUtils.pressBack(driver);
         assert isAppPagePresent();

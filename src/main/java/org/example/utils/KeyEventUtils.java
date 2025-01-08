@@ -35,6 +35,7 @@ public class KeyEventUtils {
 
     // Specific key press methods
     public static void pressHome(AndroidDriver driver) throws InterruptedException {
+        System.out.println("Go to homepage");
         pressKey(driver, AndroidKey.HOME, "Pressing Home Key");
     }
 

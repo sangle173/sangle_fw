@@ -1,14 +1,17 @@
 package org.example.utils;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.example.config.ConfigReader;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class WaitUtils {
-    private static final int MAX_RETRIES = 5;  // Maximum retries for waiting for device to be available
-    private static final int RETRY_INTERVAL_SECONDS = 2;  // Interval between retries
+    private static final int MAX_RETRIES = Integer.parseInt(ConfigReader.getProperty("max.retries"));  // Maximum retries for waiting for device to be available
+    private static final int RETRY_INTERVAL_TIME = Integer.parseInt(ConfigReader.getProperty("retry.interval.time"));
+    ;  // Interval between retries
+
     // Method to reboot the device using adb command
     public static void rebootDevice() throws IOException {
         System.out.println("Rebooting the device...");
@@ -40,7 +43,7 @@ public class WaitUtils {
             } else {
                 System.out.println("Device not available, retrying...");
                 retries++;
-                TimeUnit.SECONDS.sleep(RETRY_INTERVAL_SECONDS);
+                TimeUnit.SECONDS.sleep(RETRY_INTERVAL_TIME);
             }
         }
 
@@ -68,21 +71,21 @@ public class WaitUtils {
     }
 
     // Method to wait for the element with specific resourceId to be displayed
-    public static void waitForElementToBeVisible(AndroidDriver driver,String locator) {
+    public static void waitForElementToBeVisible(AndroidDriver driver, String locator) {
         boolean elementDisplayed = false;
         int retryCount = 0;
 
         while (retryCount < MAX_RETRIES && !elementDisplayed) {
             try {
-                WebElement element = ElementUtils.findElement(driver,locator);
+                WebElement element = ElementUtils.findElement(driver, locator);
                 // Check if the element is displayed
                 elementDisplayed = element.isDisplayed();
 
             } catch (Exception e) {
                 retryCount++;
-                System.out.println("Element is not displayed, retrying in " + RETRY_INTERVAL_SECONDS + " seconds... Attempt " + retryCount + "/" + MAX_RETRIES);
+                System.out.println("Element is not displayed, retrying in " + RETRY_INTERVAL_TIME + " seconds... Attempt " + retryCount + "/" + MAX_RETRIES);
                 try {
-                    Thread.sleep(RETRY_INTERVAL_SECONDS * 1000);  // Wait for the specified interval before retrying
+                    Thread.sleep(RETRY_INTERVAL_TIME * 1000);  // Wait for the specified interval before retrying
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }

@@ -3,10 +3,7 @@ package base;
 import io.appium.java_client.android.AndroidDriver;
 import org.example.config.ConfigReader;
 import org.example.driver_manager.AppiumDriverManager;
-import org.example.utils.ADBLogUtils;
-import org.example.utils.AllureAttachmentUtils;
-import org.example.utils.AllureLogAttachmentListener;
-import org.example.utils.VideoUtils;
+import org.example.utils.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -33,6 +30,7 @@ public class BaseTest {
         }
         AllureAttachmentUtils.attachADBCommandResult("#NSUD Build", "adb shell getprop ro.build.fingerprint");
         AllureAttachmentUtils.attachADBCommandResult("Apex Version", "adb shell cat /apex/com.sonos.player/VERSION");
+        AllureAssert.setDriver(driver);
     }
 
     @AfterMethod
