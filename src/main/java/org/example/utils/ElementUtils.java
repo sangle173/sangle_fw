@@ -2,6 +2,8 @@ package org.example.utils;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -11,11 +13,14 @@ import java.util.NoSuchElementException;
 
 public class ElementUtils {
 
+    private static final Logger logger = LogManager.getLogger(ElementUtils.class);
+
     /**
      * Finds a single element based on the locator strategy.
-     * @param driver AndroidDriver instance
+     *
+     * @param driver  AndroidDriver instance
      * @param locator locator string in the format <strategy>=<value>
-     * @return WebElement or null if element is not found.
+     * @return WebElement or null if the element is not found.
      */
     public static WebElement findElement(AndroidDriver driver, String locator) {
         WebElement element = null;
@@ -40,11 +45,10 @@ public class ElementUtils {
                 String uiAutomator = locator.substring(12); // Extract the UIAutomator part
                 element = driver.findElement(AppiumBy.androidUIAutomator(uiAutomator));
             } else {
-                throw new IllegalArgumentException("Unsupported locator strategy: " + locator);
+                logger.error("Unsupported locator strategy: {}", locator);
             }
         } catch (Exception e) {
-            System.err.println("Error finding element with locator: " + locator);
-//            e.printStackTrace(); // Or use a logger to log the error for debugging
+            logger.error("Error finding element with locator '{}': {}", locator, e.getMessage(), e);
         }
 
         return element;
@@ -52,7 +56,8 @@ public class ElementUtils {
 
     /**
      * Finds a list of elements based on the locator strategy.
-     * @param driver AndroidDriver instance
+     *
+     * @param driver  AndroidDriver instance
      * @param locator locator string in the format <strategy>=<value>
      * @return List of WebElements, or an empty list if no elements are found.
      */
@@ -79,23 +84,28 @@ public class ElementUtils {
                 String uiAutomator = locator.substring(12); // Extract the UIAutomator part
                 elements = driver.findElements(AppiumBy.androidUIAutomator(uiAutomator));
             } else {
-                throw new IllegalArgumentException("Unsupported locator strategy: " + locator);
+                logger.error("Unsupported locator strategy: {}", locator);
             }
         } catch (Exception e) {
-            System.err.println("Error finding elements with locator: " + locator);
+            logger.error("Error finding elements with locator '{}': {}", locator, e.getMessage(), e);
         }
 
         return (elements != null && !elements.isEmpty()) ? elements : Collections.emptyList(); // Return empty list if no elements found
     }
 
+    /**
+     * Retrieves the first child elements of a given element.
+     *
+     * @param element The WebElement whose child elements are to be retrieved.
+     * @return List of WebElements or null if no child elements are found.
+     */
     public static List<WebElement> getFirstChildElement(WebElement element) {
         try {
             // Use XPath to find the first child element
             return element.findElements(By.xpath("./*"));
         } catch (NoSuchElementException e) {
-            System.out.println("No child elements found in the menu element.");
+            logger.warn("No child elements found in the provided element: {}", e.getMessage());
             return null;
         }
     }
 }
-

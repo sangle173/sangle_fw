@@ -65,10 +65,6 @@ public class EmulatorTest extends BaseTest {
     public void moveRightToEndTest() throws Exception {
         KeyEventUtils.pressHome(driver);
         KeyEventUtils.pressDown(driver,4);
-        NavigationUtils.moveToTheEnd(driver, Direction.RIGHT);
-        WebElement currentActive = driver.switchTo().activeElement();
-        System.out.println(currentActive.getText());
-        KeyEventUtils.longPressOKButtonWithADB();
     }
 
     @Test

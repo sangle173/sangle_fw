@@ -1,6 +1,8 @@
 package org.example.utils;
 
 import io.qameta.allure.Allure;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,12 +13,17 @@ import java.util.Base64;
 import java.util.Date;
 
 public class VideoUtils {
+
+    private static final Logger logger = LogManager.getLogger(VideoUtils.class);
+
     // Method to generate a unique filename based on the current date and time
     public static String getVideoFileName() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = sdf.format(new Date()); // Current date and time
         FileUtils.ensureDirectoryExists("test-recordings");
-        return "test-recordings/testRecording_" + timestamp + ".mp4"; // Full filename
+        String videoFileName = "test-recordings/testRecording_" + timestamp + ".mp4"; // Full filename
+        logger.info("Generated video file name: {}", videoFileName);
+        return videoFileName;
     }
 
     // Method to save the video as an MP4 file
@@ -25,9 +32,10 @@ public class VideoUtils {
             byte[] decodedVideo = Base64.getDecoder().decode(videoBase64);
             try (FileOutputStream fos = new FileOutputStream(videoFilePath)) {
                 fos.write(decodedVideo); // Write the decoded bytes to file
+                logger.info("Video saved successfully at: {}", videoFilePath);
             }
         } catch (Exception e) {
-            System.err.println("Error while saving video: " + e.getMessage());
+            logger.error("Error while saving video: {}", e.getMessage(), e);
         }
     }
 
@@ -35,9 +43,9 @@ public class VideoUtils {
     public static void attachVideo(String videoPath) {
         try (FileInputStream fis = new FileInputStream(new File(videoPath))) {
             Allure.addAttachment("Test Recording", "video/mp4", fis, ".mp4");
+            logger.info("Video attached to Allure report successfully from path: {}", videoPath);
         } catch (IOException e) {
-            System.err.println("Failed to attach video to Allure report: " + e.getMessage());
+            logger.error("Failed to attach video to Allure report: {}", e.getMessage(), e);
         }
     }
-
 }

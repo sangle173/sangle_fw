@@ -1,15 +1,26 @@
 package org.example.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ADBLogUtils {
+
+    private static final Logger logger = LogManager.getLogger(ADBLogUtils.class);
+
+    /**
+     * Captures ADB logs and saves them to a file.
+     *
+     * @return The full path of the log file.
+     */
     public static String captureADBLogs() {
         // Format the current date and time
         String currentDate = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
-        // Define the log file name as adb-log_<currentDate>.txt
+        // Define the log file name
         String logFileName = "adb-log_" + currentDate + ".txt";
 
         // Define the full path for the log file
@@ -19,13 +30,15 @@ public class ADBLogUtils {
 
         try {
             // Ensure the logs directory exists
-            File logDir = new File("logs");
+            File logDir = new File("adb-logs");
             if (!logDir.exists()) {
                 logDir.mkdirs();
+                logger.info("Logs directory created: {}", logDir.getAbsolutePath());
             }
 
             // Run adb logcat command and capture logs
-            process = new ProcessBuilder("adb", "logcat", "-d").start();  // -d flag dumps the logs and exits
+            logger.info("Capturing ADB logs...");
+            process = new ProcessBuilder("adb", "logcat", "-d").start(); // -d flag dumps the logs and exits
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             FileWriter writer = new FileWriter(logFilePath);
 
@@ -35,15 +48,15 @@ public class ADBLogUtils {
             }
 
             writer.close();
-            System.out.println("ADB logs captured at: " + logFilePath);
+            logger.info("ADB logs captured at: {}", logFilePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error capturing ADB logs: {}", e.getMessage(), e);
         } finally {
             if (process != null) {
                 process.destroy();
             }
         }
 
-        return logFilePath;  // Return the log file path
+        return logFilePath; // Return the log file path
     }
 }

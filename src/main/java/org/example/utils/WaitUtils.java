@@ -1,6 +1,8 @@
 package org.example.utils;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.config.ConfigReader;
 import org.openqa.selenium.WebElement;
 
@@ -8,20 +10,21 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class WaitUtils {
+
+    private static final Logger logger = LogManager.getLogger(WaitUtils.class);
+
     private static final int MAX_RETRIES = Integer.parseInt(ConfigReader.getProperty("max.retries"));  // Maximum retries for waiting for device to be available
-    private static final int RETRY_INTERVAL_TIME = Integer.parseInt(ConfigReader.getProperty("retry.interval.time"));
-    ;  // Interval between retries
+    private static final int RETRY_INTERVAL_TIME = Integer.parseInt(ConfigReader.getProperty("retry.interval.time"));  // Interval between retries
 
     // Method to reboot the device using adb command
     public static void rebootDevice() throws IOException {
-        System.out.println("Rebooting the device...");
-        // ADB command to reboot the device
+        logger.info("Rebooting the device...");
         Process process = new ProcessBuilder("adb", "reboot").start();
         try {
             process.waitFor();
-            System.out.println("Device rebooted.");
+            logger.info("Device rebooted.");
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Error occurred while rebooting the device: {}", e.getMessage(), e);
         }
     }
 
@@ -38,16 +41,17 @@ public class WaitUtils {
             deviceAvailable = isDeviceAvailable(process);
 
             if (deviceAvailable) {
-                System.out.println("Device is available.");
+                logger.info("Device is available.");
                 break;
             } else {
-                System.out.println("Device not available, retrying...");
+                logger.warn("Device not available, retrying... Attempt {}/{}", retries + 1, MAX_RETRIES);
                 retries++;
                 TimeUnit.SECONDS.sleep(RETRY_INTERVAL_TIME);
             }
         }
 
         if (!deviceAvailable) {
+            logger.error("Device did not become available after {} retries.", MAX_RETRIES);
             throw new RuntimeException("Device did not become available after " + MAX_RETRIES + " retries.");
         }
     }
@@ -58,15 +62,15 @@ public class WaitUtils {
         String outputString = new String(output);
 
         // Check if the device is listed as online
-        return outputString.contains("device") && !outputString.contains("offline");
+        boolean isAvailable = outputString.contains("device") && !outputString.contains("offline");
+        logger.debug("Device availability check output: {}, Is available: {}", outputString.trim(), isAvailable);
+        return isAvailable;
     }
 
     // Method to reboot the device and wait for it to be available again
     public static void rebootDeviceAndWaitForAvailability() throws IOException, InterruptedException {
-        // Step 1: Reboot the device using adb command
+        logger.info("Rebooting the device and waiting for it to become available...");
         rebootDevice();
-
-        // Step 2: Wait for the device to become available
         waitForDeviceToBeAvailable();
     }
 
@@ -80,20 +84,22 @@ public class WaitUtils {
                 WebElement element = ElementUtils.findElement(driver, locator);
                 // Check if the element is displayed
                 elementDisplayed = element.isDisplayed();
-
             } catch (Exception e) {
                 retryCount++;
-                System.out.println("Element is not displayed, retrying in " + RETRY_INTERVAL_TIME + " seconds... Attempt " + retryCount + "/" + MAX_RETRIES);
+                logger.warn("Element is not displayed, retrying in {} seconds... Attempt {}/{}", RETRY_INTERVAL_TIME, retryCount, MAX_RETRIES);
                 try {
                     Thread.sleep(RETRY_INTERVAL_TIME * 1000);  // Wait for the specified interval before retrying
                 } catch (InterruptedException ie) {
-                    ie.printStackTrace();
+                    logger.error("Interrupted while waiting to retry: {}", ie.getMessage(), ie);
                 }
             }
         }
 
         if (!elementDisplayed) {
-            System.out.println("Element with resourceId Up Next is not displayed, after " + MAX_RETRIES + " retries.");
+            logger.error("Element with locator '{}' is not displayed after {} retries.", locator, MAX_RETRIES);
+            throw new RuntimeException("Element not displayed after " + MAX_RETRIES + " retries.");
+        } else {
+            logger.info("Element with locator '{}' is displayed.", locator);
         }
     }
 }
