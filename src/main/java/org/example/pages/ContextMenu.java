@@ -52,7 +52,7 @@ public class ContextMenu {
     public void moveToAndSelectTheOption(ContextMenuOptions option) throws InterruptedException {
         String optionLocator = getOptionLocator(option);
         if (optionLocator != null) {
-            NavigationUtils.moveToElement(driver, optionLocator, Direction.DOWN);
+            NavigationUtils.goToItemOnMenuByDown(driver, optionLocator);
             KeyEventUtils.pressCenter(driver);
         } else {
             throw new IllegalArgumentException("Invalid context menu option: " + option.getOptionName());

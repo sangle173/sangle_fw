@@ -43,7 +43,7 @@ public class BasePage {
     public ContextMenu moveToItemAndOpenContextMenu(String locator, Direction direction) {
         try {
             logger.info("Attempting to move to item with locator '{}' in direction '{}'...", locator, direction);
-            NavigationUtils.moveToElement(driver, locator, direction);
+            NavigationUtils.goToItemOnMenuByDown(driver, locator);
             logger.info("Successfully navigated to the item. Attempting to open the context menu...");
             KeyEventUtils.longPressOKButtonWithADB();
             logger.info("Context menu opened successfully.");

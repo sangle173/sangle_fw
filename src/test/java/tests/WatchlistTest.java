@@ -25,7 +25,7 @@ public class WatchlistTest extends BaseTest {
         KeyEventUtils.pressHome(driver);
         String firstItemOnWatchlistMenu = "xpath=//android.view.View[@resource-id='home:content_guide:watchlists:item_0']/..";
 
-        NavigationUtils.moveToElement(driver,firstItemOnWatchlistMenu, Direction.DOWN);
+        NavigationUtils.goToItemOnMenuByDown(driver,firstItemOnWatchlistMenu);
         Allure.step("Move To Watchlist Menu");
 
         List<WebElement> watchlistNo = driver.findElements(By.xpath("//android.view.View[contains(@resource-id, 'home:content_guide:watchlists:item')]"));
@@ -47,7 +47,7 @@ public class WatchlistTest extends BaseTest {
         WaitUtils.waitForElementToBeVisible(driver,createdWatchlistLocator);
         WebElement createWatchlistElement = driver.findElement(AppiumBy.androidUIAutomator(createdWatchlistLocator));
         AllureAssert.assertTrue(createWatchlistElement.isDisplayed(), "Check the new watchList Menu is displayed");
-        NavigationUtils.moveToElement(driver,String.format("//android.widget.TextView[@text=\"%s\"]/../../../..", newWatchlistName),Direction.LEFT);
+        NavigationUtils.goToItemOnMenuByRight(driver,String.format("//android.widget.TextView[@text=\"%s\"]/../../../..", newWatchlistName));
         KeyEventUtils.longPressOKButtonWithADB();
         List<WebElement> noOfContextItem = driver.findElements(By.xpath("//android.view.ViewGroup[@resource-id=\"android:id/content\"]/android.view.View/android.view.View/android.view.View"));
         KeyEventUtils.pressDown(driver,3);

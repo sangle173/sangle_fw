@@ -2,6 +2,7 @@ package home_test;
 
 import io.qameta.allure.Allure;
 import base.BaseTest;
+import org.example.pages.emulator_pages.EmulatorHomePage;
 import org.example.utils.AllureAssert;
 import org.example.utils.LogUtils;
 import org.testng.annotations.Listeners;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Listeners({org.example.utils.TestListener.class, org.example.utils.AllureLogAttachmentListener.class})
 public class LogTest extends BaseTest {
+    EmulatorHomePage emulatorHomePage;
 
     @Test
     public void logTest() {
@@ -27,5 +29,12 @@ public class LogTest extends BaseTest {
         for (String context : contexts) {
             System.out.println("Available context: " + context);
         }
+    }
+
+    @Test
+    public void addAppTest() throws InterruptedException {
+        emulatorHomePage = new EmulatorHomePage(driver);
+        emulatorHomePage.goToFirstMenu();
+        emulatorHomePage.goToAppPage();
     }
 }

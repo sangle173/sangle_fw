@@ -32,7 +32,7 @@ public class BvtTesting extends BaseTest {
         Allure.step("Go to source row");
         homePage.goToSourceRowMenu();
         Allure.step("Go to add app button and open the apps page");
-        NavigationUtils.moveToTheEnd(driver, Direction.RIGHT);
+        NavigationUtils.moveToEndOfMenu(driver, Direction.RIGHT);
         KeyEventUtils.pressCenter(driver);
         AppPage appPage = new AppPage(driver);
         AllureAssert.assertTrue(appPage.isAppPagePresent(), "Verify the app page displays");
@@ -57,7 +57,7 @@ public class BvtTesting extends BaseTest {
         Allure.step("Go to source row");
         SourceRowMenu sourceRowMenu = homePage.goToSourceRowMenu();
         Allure.step("Go to add app button and open the apps page");
-        NavigationUtils.moveToTheEnd(driver, Direction.RIGHT);
+        NavigationUtils.moveToEndOfMenu(driver, Direction.RIGHT);
         KeyEventUtils.pressCenter(driver);
         AppPage appPage = new AppPage(driver);
         AllureAssert.assertTrue(appPage.isAppPagePresent(), "Verify the app page displays");

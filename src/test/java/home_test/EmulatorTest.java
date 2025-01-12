@@ -33,10 +33,10 @@ public class EmulatorTest extends BaseTest {
         KeyEventUtils.pressHome(driver);
         String customize = "id=com.google.android.tvlauncher:id/configure_tab_card";
         String feedback = "com.google.android.tvlauncher:id/send_feedback_card";
-        NavigationUtils.moveToElement(driver, customize, Direction.DOWN);
+        NavigationUtils.goToItemOnMenuByDown(driver, customize);
         WebElement customizeElement = ElementUtils.findElement(driver, customize);
         Assert.assertTrue(Boolean.parseBoolean(customizeElement.getAttribute("focused")), "customize is focused");
-        NavigationUtils.moveToElement(driver, feedback, Direction.RIGHT);
+        NavigationUtils.goToItemOnMenuByRight(driver, feedback);
         WebElement feedbackElement = ElementUtils.findElement(driver, feedback);
         Assert.assertTrue(Boolean.parseBoolean(feedbackElement.getAttribute("focused")), "feedbackElement is focused");
         System.out.println(feedbackElement.getAttribute("focused"));
@@ -47,7 +47,7 @@ public class EmulatorTest extends BaseTest {
         KeyEventUtils.pressHome(driver);
         WebElement currentActive = driver.switchTo().activeElement();
         String customize = "id=com.google.android.tvlauncher:id/send_feedback_card";
-        NavigationUtils.moveToElement(driver, customize, Direction.DOWN);
+        NavigationUtils.goToItemOnMenuByDown(driver, customize);
         WebElement customizeEle = ElementUtils.findElement(driver,customize);
         System.out.println(currentActive.equals(customizeEle));
     }
@@ -55,7 +55,7 @@ public class EmulatorTest extends BaseTest {
     @Test
     public void moveToEndTest() throws Exception {
         KeyEventUtils.pressHome(driver);
-        NavigationUtils.moveToTheEnd(driver, Direction.DOWN);
+        NavigationUtils.moveToEndOfMenu(driver, Direction.DOWN);
         WebElement currentActive = driver.switchTo().activeElement();
         System.out.println(currentActive.getText());
         KeyEventUtils.longPressOKButtonWithADB();
@@ -85,7 +85,7 @@ public class EmulatorTest extends BaseTest {
         KeyEventUtils.pressHome(driver);
         String recentMenuLocator = "xpath=//android.widget.TextView[@resource-id=\"com.google.android.tvlauncher:id/items_title\" and @text=\"Recently Added\"]/preceding-sibling::android.widget.FrameLayout//android.widget.GridView[@resource-id=\"com.google.android.tvlauncher:id/items_list\"]";
         NavigationUtils.goToMenu(driver,recentMenuLocator, Direction.DOWN);
-        NavigationUtils.moveToTheEnd(driver, Direction.RIGHT);
+        NavigationUtils.moveToEndOfMenu(driver, Direction.RIGHT);
         BasePage basePage = new BasePage(driver);
         basePage.openContextMenu();
     }

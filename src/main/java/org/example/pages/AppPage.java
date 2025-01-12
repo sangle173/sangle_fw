@@ -160,7 +160,7 @@ public class AppPage extends BasePage {
         String appName = null;
         if (isRemoveButtonDisplayed()) {
             appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
-            NavigationUtils.moveToElement(driver, "xpath=//android.widget.TextView[@text=\"Remove\"]/..", Direction.RIGHT);
+            NavigationUtils.goToItemOnMenuByRight(driver, "xpath=//android.widget.TextView[@text=\"Remove\"]/..");
             Allure.step("Removing the (" + appName + ") app ...");
             KeyEventUtils.pressCenter(driver);
         }

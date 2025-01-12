@@ -28,7 +28,7 @@ public class SourceRowMenu extends BasePage {
 
     public List<String> getActiveAppOnSourceRow() throws InterruptedException {
         //Ensure start from first item
-        NavigationUtils.moveToTheEnd(driver, Direction.LEFT);
+        NavigationUtils.moveToEndOfMenu(driver, Direction.LEFT);
         List<String> actualActiveAppsOnSourceRow = new ArrayList<>();
         // Iterate through each row
         boolean isEndOfRow = false;
