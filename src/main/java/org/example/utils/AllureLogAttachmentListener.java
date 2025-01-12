@@ -20,8 +20,8 @@ public class AllureLogAttachmentListener implements ITestListener {
     }
 
     public static void attachLogsToAllure() {
-        try (FileInputStream fis = new FileInputStream("logs/application.log")) {
-            Allure.addAttachment("Test Logs", fis);
+        try (FileInputStream fis = new FileInputStream("logs/app.log")) {
+            Allure.addAttachment("Test Run Logs", fis);
         } catch (IOException e) {
             e.printStackTrace();
         }

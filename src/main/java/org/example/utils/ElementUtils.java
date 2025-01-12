@@ -5,11 +5,13 @@ import io.appium.java_client.android.AndroidDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class ElementUtils {
 
@@ -108,4 +110,38 @@ public class ElementUtils {
             return null;
         }
     }
+
+    public WebElement getActiveElementInWebView(AndroidDriver driver) {
+        WebElement activeElement = null;
+        try {
+            // Switch to the WebView context
+            Set<String> contexts = driver.getContextHandles();
+            for (String context : contexts) {
+                if (context.contains("WEBVIEW")) {
+                    driver.context(context);
+                    logger.info("Switched to WebView context: {}", context);
+                    break;
+                }
+            }
+
+            // Execute JavaScript to get the active element
+            activeElement = (WebElement) ((JavascriptExecutor) driver).executeScript("return document.activeElement");
+
+            // Log or interact with the active element
+            if (activeElement != null) {
+                logger.info("Active element tag name: {}", activeElement.getTagName());
+                logger.info("Active element text: {}", activeElement.getText());
+            } else {
+                logger.warn("No active element found in the WebView.");
+            }
+
+            // Switch back to the native context
+            driver.context("NATIVE_APP");
+            logger.info("Switched back to Native context.");
+        } catch (Exception e) {
+            logger.error("Error while getting the active element in WebView: {}", e.getMessage(), e);
+        }
+        return activeElement;
+    }
+
 }

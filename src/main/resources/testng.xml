@@ -6,8 +6,7 @@
     </listeners>
     <test name="Build Verification Test">
         <classes>
-            <class name="pw_test.BvtTesting" />
-<!--            <class name="web_tests.WebSampleTest" />-->
+            <class name="home_test.LogTest" />
         </classes>
     </test>
 </suite>

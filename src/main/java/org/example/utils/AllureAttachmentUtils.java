@@ -3,13 +3,71 @@ package org.example.utils;
 import io.qameta.allure.Allure;
 
 import java.io.*;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class AllureAttachmentUtils {
-    public static void attachLog(String logPath) {
-        try (FileInputStream fis = new FileInputStream(new File(logPath))) {
-            Allure.addAttachment("ADB Log Info", "txt", fis, ".txt");
+    private static final Logger logger = LogManager.getLogger(AllureAttachmentUtils.class);
+
+    /**
+     * Attaches the log to Allure and counts occurrences of "FATAL EXCEPTION."
+     *
+     * @param adbLogPath Path to the log file
+     */
+    public static void attachLog(String adbLogPath) {
+        File adbLogFile = new File(adbLogPath);
+
+        if (!adbLogFile.exists()) {
+            logger.error("ADB log file does not exist at path: {}", adbLogPath);
+            return;
+        }
+
+        StringBuilder fatalSummary = new StringBuilder();
+        int fatalCount = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(adbLogFile))) {
+            String line;
+            StringBuilder currentFatal = null;
+            int linesToCapture = 0;
+
+            // Process the log file line by line
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("FATAL EXCEPTION")) {
+                    // Start capturing a new FATAL EXCEPTION
+                    if (currentFatal != null) {
+                        fatalSummary.append(currentFatal).append(System.lineSeparator());
+                    }
+                    currentFatal = new StringBuilder();
+                    currentFatal.append(line).append(System.lineSeparator());
+                    linesToCapture = 20; // Capture 20 lines below
+                    fatalCount++;
+                } else if (linesToCapture > 0 && currentFatal != null) {
+                    // Add lines below the FATAL EXCEPTION
+                    currentFatal.append(line).append(System.lineSeparator());
+                    linesToCapture--;
+                }
+            }
+
+            // Add the last captured FATAL EXCEPTION
+            if (currentFatal != null) {
+                fatalSummary.append(currentFatal).append(System.lineSeparator());
+            }
+
+            // Attach full ADB log file to Allure
+            try (FileInputStream fis = new FileInputStream(adbLogFile)) {
+                Allure.addAttachment("Full ADB Log", "text/plain", fis, ".txt");
+                logger.info("Successfully attached full ADB log to Allure.");
+            }
+
+            // Attach summarized FATAL EXCEPTION log to Allure
+            if (fatalCount > 0) {
+                Allure.addAttachment("FATAL EXCEPTIONS Summary" + ", found: " + fatalCount +" FATAL_EXCEPTION", "text/plain", fatalSummary.toString());
+                logger.info("Attached FATAL EXCEPTIONS summary to Allure. Total exceptions: {}", fatalCount);
+            } else {
+                logger.info("No FATAL EXCEPTIONS found in the ADB log.");
+            }
+
         } catch (IOException e) {
-            System.err.println("Failed to attach log to Allure report: " + e.getMessage());
+            logger.error("Failed to read ADB log file at path '{}': {}", adbLogPath, e.getMessage(), e);
         }
     }
 

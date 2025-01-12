@@ -4,20 +4,29 @@ import io.appium.java_client.android.AndroidDriver;
 import org.example.config.ConfigReader;
 import org.example.driver_manager.AppiumDriverManager;
 import org.example.utils.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class BaseTest {
+    private static final Logger log = LoggerFactory.getLogger(BaseTest.class);
     protected AndroidDriver driver;
     private String videoFilePath;
 
     @BeforeClass
     public void setUp() throws Exception {
         driver = AppiumDriverManager.getDriver();
+        // Get all available contexts (NATIVE_APP and WEBVIEW)
+        Set<String> contexts = driver.getContextHandles();
+        for (String context : contexts) {
+            log.info("Available context: {}", context);
+        }
     }
 
     @BeforeMethod
@@ -30,6 +39,7 @@ public class BaseTest {
         }
         AllureAttachmentUtils.attachADBCommandResult("#NSUD Build", "adb shell getprop ro.build.fingerprint");
         AllureAttachmentUtils.attachADBCommandResult("Apex Version", "adb shell cat /apex/com.sonos.player/VERSION");
+        AllureAttachmentUtils.attachADBCommandResult("Device", "adb devices");
         AllureAssert.setDriver(driver);
     }
 

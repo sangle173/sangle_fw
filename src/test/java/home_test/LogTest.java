@@ -7,6 +7,8 @@ import org.example.utils.LogUtils;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.util.Set;
+
 @Listeners({org.example.utils.TestListener.class, org.example.utils.AllureLogAttachmentListener.class})
 public class LogTest extends BaseTest {
 
@@ -20,7 +22,10 @@ public class LogTest extends BaseTest {
 
     @Test
     public void testAppLaunch() {
-        // Verify that the app launches correctly
-        String activity = driver.currentActivity();
+        // Get all available contexts (NATIVE_APP and WEBVIEW)
+        Set<String> contexts = driver.getContextHandles();
+        for (String context : contexts) {
+            System.out.println("Available context: " + context);
+        }
     }
 }
