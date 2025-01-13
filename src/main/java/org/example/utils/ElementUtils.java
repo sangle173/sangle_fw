@@ -50,7 +50,7 @@ public class ElementUtils {
                 logger.error("Unsupported locator strategy: {}", locator);
             }
         } catch (Exception e) {
-            logger.error("Error finding element with locator '{}': {}", locator, e.getMessage(), e);
+            logger.error("Error finding element with locator.");
         }
 
         return element;

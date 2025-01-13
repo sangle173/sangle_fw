@@ -9,6 +9,7 @@ import org.example.pages.homepage.menus.SourceRowMenu;
 import org.example.pages.homepage.menus.UpNextMenu;
 import org.example.pages.homepage.menus.WatchlistMenu;
 import org.example.utils.NavigationUtils;
+import org.example.utils.WaitUtils;
 import org.example.utils.enums.Direction;
 
 public class HomePage extends BasePage {
@@ -17,9 +18,9 @@ public class HomePage extends BasePage {
 
     // Locators for menus
     private static final String UP_NEXT_MENU = "//xpath_to_up_next_menu";
-    private static final String SOURCE_ROW_MENU = "xpath=//android.view.View[@resource-id=\"home:app_rail\"]/android.view.View";
+    private static final String SOURCE_ROW_MENU = "xpath=//android.view.View[@resource-id=\"home:app_rail\"]";
     private static final String QUICK_SAVES_MENU = "//xpath_to_quick_saves_menu";
-    private static final String WATCHLIST_MENU = "//xpath_to_watchlist_menu";
+    private static final String WATCHLIST_MENU = "xpath=//android.view.View[@resource-id=\"home:content_guide:watchlists\"]";
 
     public HomePage(AndroidDriver driver) {
         super(driver);
@@ -71,5 +72,10 @@ public class HomePage extends BasePage {
         NavigationUtils.goToMenu(driver, WATCHLIST_MENU, Direction.DOWN);
         logger.info("Successfully navigated to Watchlist Menu.");
         return new WatchlistMenu(driver);
+    }
+
+    public boolean isActiveElementPlacedOnWatchlistMenu() {
+        WaitUtils.waitForElementToBeVisible(driver, WATCHLIST_MENU);
+        return NavigationUtils.isActiveElementAChildOfMenu(driver,WATCHLIST_MENU);
     }
 }

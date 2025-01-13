@@ -3,11 +3,14 @@ package org.example.pages;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.utils.ElementUtils;
 import org.example.utils.KeyEventUtils;
 import org.example.utils.NavigationUtils;
+import org.example.utils.WaitUtils;
 import org.example.utils.enums.Direction;
 
 public class BasePage {
+    private static final String CONFIRM_POPUP_DELETE_LOCATOR = "xpath=//android.widget.TextView[@text=\"Are you sure you want to delete?\"]";
 
     private static final Logger logger = LogManager.getLogger(BasePage.class);
     protected AndroidDriver driver;
@@ -52,5 +55,10 @@ public class BasePage {
             logger.error("Failed to open context menu after moving to item: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to open context menu: " + e.getMessage());
         }
+    }
+
+    public boolean isDeleteConfirmPopupDisplayed() {
+        WaitUtils.waitForElementToBeVisible(driver,CONFIRM_POPUP_DELETE_LOCATOR);
+        return ElementUtils.findElement(driver,CONFIRM_POPUP_DELETE_LOCATOR).isDisplayed();
     }
 }

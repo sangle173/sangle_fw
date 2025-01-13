@@ -34,6 +34,42 @@ public class NavigationUtils {
     }
 
     /**
+     * Navigates to a specific item on the menu by moving right.
+     *
+     * @param driver        The AndroidDriver instance.
+     * @param targetLocator The locator for the target element.
+     * @throws InterruptedException If interrupted during navigation.
+     */
+    public static void goToItemOnMenuByLeft(AndroidDriver driver, String targetLocator) throws InterruptedException {
+        logger.info("Navigating to the target item by moving LEFT: {}", targetLocator);
+
+        // Step 1: Ensure the active element is at the far right of the menu
+        logger.info("Ensuring the active element is at the far right of the menu.");
+        moveToEndOfMenu(driver, Direction.RIGHT);
+
+        // Step 2: Navigate to the target item by moving left
+        navigateToTarget(driver, targetLocator, Direction.LEFT);
+    }
+
+    /**
+     * Navigates to a specific item on the menu by moving down.
+     *
+     * @param driver        The AndroidDriver instance.
+     * @param targetLocator The locator for the target element.
+     * @throws InterruptedException If interrupted during navigation.
+     */
+    public static void goToItemOnMenuByUp(AndroidDriver driver, String targetLocator) throws InterruptedException {
+        logger.info("Navigating to the target item by moving UP: {}", targetLocator);
+
+        // Step 1: Ensure the active element is at the top of the menu
+        logger.info("Ensuring the active element is at the bottom of the menu.");
+        moveToEndOfMenu(driver, Direction.DOWN);
+
+        // Step 2: Navigate to the target item by moving down
+        navigateToTarget(driver, targetLocator, Direction.UP);
+    }
+
+    /**
      * Navigates to a specific item on the menu by moving down.
      *
      * @param driver        The AndroidDriver instance.
@@ -84,8 +120,6 @@ public class NavigationUtils {
                     throw new AssertionError("Target element not found in the menu.");
                 }
 
-                // Move in the specified direction
-                logger.info("Moving {}.", direction);
                 move(driver, direction);
 
                 // Update the previous active element
@@ -111,7 +145,7 @@ public class NavigationUtils {
      * @param direction The direction to move (e.g., LEFT, RIGHT, UP, DOWN).
      * @throws InterruptedException If interrupted during navigation.
      */
-    public static void moveToEndOfMenu(AndroidDriver driver, Direction direction) throws InterruptedException {
+    public static void moveToEndOfMenu(AndroidDriver driver, Direction direction) {
         logger.info("Moving to the end of the menu in the {} direction.", direction);
 
         int timeout = Integer.parseInt(ConfigReader.getProperty(Constant.MENU_NAVIGATION_TIMEOUT));
@@ -128,13 +162,12 @@ public class NavigationUtils {
                     return;
                 }
 
-                logger.info("Moving {}.", direction);
                 move(driver, direction);
                 previousElement = currentActiveElement;
 
                 Thread.sleep(Integer.parseInt(ConfigReader.getProperty(Constant.KEY_EVENT_DELAY)));
             } catch (Exception e) {
-                logger.error("Error occurred while moving to the end of the menu: {}", e.getMessage(), e);
+                logger.error("Error occurred while moving to the end of the menu: {}", e.getMessage());
             }
         }
 
@@ -189,7 +222,7 @@ public class NavigationUtils {
                 previousActiveElement = currentActiveElement;
 
             } catch (Exception e) {
-                logger.error("An error occurred while navigating to the menu: {}", e.getMessage(), e);
+                logger.error("An error occurred while navigating to the menu");
             }
         }
 
@@ -229,7 +262,7 @@ public class NavigationUtils {
                 logger.info("Active element is not part of the menu.");
             }
         } catch (Exception e) {
-            logger.error("Error while checking if active element is a child of the menu: {}", e.getMessage(), e);
+            logger.error("Error while checking if active element is a child of the menu: ");
         }
 
         return false;

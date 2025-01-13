@@ -17,6 +17,12 @@
     "deviceName": "an4009099402d84501b13",
     "automationName": "UiAutomator2"
   },
+  "SangLeP2B": {
+    "platformName": "Android",
+    "platformVersion": "13.0",
+    "deviceName": "an4001099402d84100806",
+    "automationName": "UiAutomator2"
+  },
   "NhanTran": {
     "platformName": "Android",
     "platformVersion": "13.0",

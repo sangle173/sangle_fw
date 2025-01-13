@@ -14,9 +14,9 @@ public class ContextMenu {
     private AndroidDriver driver;
 
     // Locators for the context menu options
-    private static final String CONTEXT_MENU_LOCATOR = "//xpath_to_context_menu";
+    private static final String CONTEXT_MENU_LOCATOR = "";
     private static final String PLAY_MOVIE_LOCATOR = "//xpath_to_play_movie";
-    private static final String DELETE_LOCATOR = "//xpath_to_delete_item";
+    private static final String DELETE_LOCATOR = "uiautomator=new UiSelector().text(\"Delete\")";
     private static final String OPEN_CONTENT_DETAILS_LOCATOR = "//xpath_to_open_content_details";
     private static final String APP_DETAILS_LOCATOR = "xpath=//android.widget.TextView[@text=\"App Details\"]/..";
 
@@ -51,6 +51,8 @@ public class ContextMenu {
     // Method to move to and select an option from the context menu
     public void moveToAndSelectTheOption(ContextMenuOptions option) throws InterruptedException {
         String optionLocator = getOptionLocator(option);
+        WaitUtils.waitForElementToBeVisible(driver,optionLocator);
+        System.out.println(optionLocator);
         if (optionLocator != null) {
             NavigationUtils.goToItemOnMenuByDown(driver, optionLocator);
             KeyEventUtils.pressCenter(driver);

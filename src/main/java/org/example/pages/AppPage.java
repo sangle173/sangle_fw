@@ -135,6 +135,34 @@ public class AppPage extends BasePage {
         }
     }
 
+    public void navigateToAndRemoveActiveApps() throws InterruptedException {
+        int numberOfRows = NO_OF_ROW; // Number of rows in the grid
+        boolean moveRight = true; // Initial direction for movement
+
+        // Iterate through each row
+        for (int row = 0; row < numberOfRows; row++) {
+            boolean isEndOfRow = false;
+
+            // Navigate through each app in the current row
+            while (!isEndOfRow) {
+                // Perform action on the current app
+                removeActiveAppAction();
+
+                // Check if unable to move further in the current direction
+                isEndOfRow = NavigationUtils.checkEndOfRowWithoutMoving(driver, moveRight ? Direction.RIGHT : Direction.LEFT);
+            }
+
+            // If it's the last row, stop navigating
+            if (row == numberOfRows - 1) {
+                break;
+            }
+
+            // Move down to the next row and change direction
+            NavigationUtils.move(driver, Direction.DOWN);
+            moveRight = !moveRight; // Alternate direction for the next row
+        }
+    }
+
 
     private String addAppAction() throws InterruptedException {
         // Press "Enter" to select the current app
@@ -146,7 +174,7 @@ public class AppPage extends BasePage {
             appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
             Allure.step("Adding the (" + appName + ") app...");
         }
-        AllureAssert.assertTrue(isOpenButtonDisplayed() && isRestartButtonDisplayed() && isRemoveButtonDisplayed(), "Verify the (" + appName + ") is installed");
+        AllureAssert.assertTrue(isOpenButtonDisplayed() && isRestartButtonDisplayed(), "Verify the (" + appName + ") is installed");
 
         // Press "Back" to return to the grid
         KeyEventUtils.pressBack(driver);
@@ -164,9 +192,29 @@ public class AppPage extends BasePage {
             Allure.step("Removing the (" + appName + ") app ...");
             KeyEventUtils.pressCenter(driver);
         }
-        AllureAssert.assertTrue(isAddAppButtonDisplayed(), "Verify the (" +appName + ") is uninstalled.");
+        AllureAssert.assertTrue(isAddAppButtonDisplayed(), "Verify the (" + appName + ") is uninstalled.");
         // Press "Back" to return to the grid
         KeyEventUtils.pressBack(driver);
+        assert isAppPagePresent();
+    }
+
+    private void removeActiveAppAction() throws InterruptedException {
+        // Press "Enter" to select the current app
+        KeyEventUtils.pressCenter(driver);
+        String appName = null;
+        WebElement removeButton = ElementUtils.findElement(driver, REMOVE_APP_LOCATOR);
+        if (removeButton !=null) {
+            appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
+            NavigationUtils.goToItemOnMenuByRight(driver, "xpath=//android.widget.TextView[@text=\"Remove\"]/..");
+            Allure.step("Removing the (" + appName + ") app ...");
+            KeyEventUtils.pressCenter(driver);
+            KeyEventUtils.pressBack(driver);
+
+        } else {
+            Allure.step(appName + " app is active, back to app page");
+            KeyEventUtils.pressBack(driver);
+        }
+        // Press "Back" to return to the grid
         assert isAppPagePresent();
     }
 

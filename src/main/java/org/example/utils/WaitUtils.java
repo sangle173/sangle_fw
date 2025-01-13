@@ -90,7 +90,7 @@ public class WaitUtils {
                 try {
                     Thread.sleep(RETRY_INTERVAL_TIME * 1000);  // Wait for the specified interval before retrying
                 } catch (InterruptedException ie) {
-                    logger.error("Interrupted while waiting to retry: {}", ie.getMessage(), ie);
+                    logger.error("Interrupted while waiting to retry:");
                 }
             }
         }

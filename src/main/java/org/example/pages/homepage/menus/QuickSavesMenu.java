@@ -4,9 +4,6 @@ import io.appium.java_client.android.AndroidDriver;
 import org.example.pages.BasePage;
 
 public class QuickSavesMenu extends BasePage {
-
-    private AndroidDriver driver;
-
     // Constructor
     public QuickSavesMenu(AndroidDriver driver) {
         super(driver);

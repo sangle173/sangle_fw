@@ -39,132 +39,106 @@ public class KeyEventUtils {
 
     // Specific key press methods
     public static void pressHome(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Home key");
         pressKey(driver, AndroidKey.HOME, "Pressing Home Key");
     }
 
     public static void pressHome(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Home key {} times", times);
         pressKey(driver, AndroidKey.HOME, "Pressing Home Key", times);
     }
 
     public static void pressPower(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Power key");
         pressKey(driver, AndroidKey.POWER, "Pressing Power Key");
     }
 
     public static void pressPower(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Power key {} times", times);
         pressKey(driver, AndroidKey.POWER, "Pressing Power Key", times);
     }
 
     public static void pressVolumeUp(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Volume Up key");
         pressKey(driver, AndroidKey.VOLUME_UP, "Pressing Volume Up Key");
     }
 
     public static void pressVolumeUp(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Volume Up key {} times", times);
         pressKey(driver, AndroidKey.VOLUME_UP, "Pressing Volume Up Key", times);
     }
 
     public static void pressVolumeDown(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Volume Down key");
         pressKey(driver, AndroidKey.VOLUME_DOWN, "Pressing Volume Down Key");
     }
 
     public static void pressVolumeDown(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Volume Down key {} times", times);
         pressKey(driver, AndroidKey.VOLUME_DOWN, "Pressing Volume Down Key", times);
     }
 
     public static void pressMute(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Mute key");
         pressKey(driver, AndroidKey.VOLUME_MUTE, "Pressing Mute Key");
     }
 
     public static void pressRight(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Right key");
         pressKey(driver, AndroidKey.DPAD_RIGHT, "Pressing Right Key");
     }
 
     public static void pressRight(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Right key {} times", times);
         pressKey(driver, AndroidKey.DPAD_RIGHT, "Pressing Right Key", times);
     }
 
     public static void pressLeft(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Left key");
         pressKey(driver, AndroidKey.DPAD_LEFT, "Pressing Left Key");
     }
 
     public static void pressLeft(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Left key {} times", times);
         pressKey(driver, AndroidKey.DPAD_LEFT, "Pressing Left Key", times);
     }
 
     public static void pressUp(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Up key");
         pressKey(driver, AndroidKey.DPAD_UP, "Pressing Up Key");
     }
 
     public static void pressUp(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Up key {} times", times);
         pressKey(driver, AndroidKey.DPAD_UP, "Pressing Up Key", times);
     }
 
     public static void pressDown(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Down key");
         pressKey(driver, AndroidKey.DPAD_DOWN, "Pressing Down Key");
     }
 
     public static void pressDown(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Down key {} times", times);
         pressKey(driver, AndroidKey.DPAD_DOWN, "Pressing Down Key", times);
     }
 
     public static void pressCenter(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Center key (OK)");
         pressKey(driver, AndroidKey.DPAD_CENTER, "Pressing Center Key (OK)");
     }
 
     public static void pressCenter(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Center key (OK) {} times", times);
         pressKey(driver, AndroidKey.DPAD_CENTER, "Pressing Center Key (OK)", times);
     }
 
     public static void pressBack(AndroidDriver driver) {
-        logger.info("Pressing Back key");
         driver.pressKey(new KeyEvent(AndroidKey.BACK));
     }
 
     public static void pressBack(AndroidDriver driver, int times) throws InterruptedException {
-        logger.info("Pressing Back key {} times", times);
         pressKey(driver, AndroidKey.BACK, "Pressing Back Key", times);
     }
 
     public static void pressPlay(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Play key");
         pressKey(driver, AndroidKey.MEDIA_PLAY, "Pressing Play Key");
     }
 
     public static void pressPause(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Pause key");
         pressKey(driver, AndroidKey.MEDIA_PAUSE, "Pressing Pause Key");
     }
 
     public static void pressStop(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Stop key");
         pressKey(driver, AndroidKey.MEDIA_STOP, "Pressing Stop Key");
     }
 
     public static void pressRewind(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Rewind key");
         pressKey(driver, AndroidKey.MEDIA_REWIND, "Pressing Rewind Key");
     }
 
     public static void pressFastForward(AndroidDriver driver) throws InterruptedException {
-        logger.info("Pressing Fast Forward key");
         pressKey(driver, AndroidKey.MEDIA_FAST_FORWARD, "Pressing Fast Forward Key");
     }
 
