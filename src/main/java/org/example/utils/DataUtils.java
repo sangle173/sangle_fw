@@ -45,7 +45,7 @@ public class DataUtils {
      * @return A random TV show name.
      */
     public static String getRandomTvShow() {
-        return getRandomFromList("tvShows");
+        return getRandomFromList("tv_shows");
     }
 
     /**

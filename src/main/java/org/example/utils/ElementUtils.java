@@ -30,10 +30,10 @@ public class ElementUtils {
         try {
             if (locator.startsWith("id=")) {
                 String id = locator.substring(3); // Extract the ID part
-                element = driver.findElement(By.id(id));
+                element = driver.findElement(AppiumBy.accessibilityId(id));
             } else if (locator.startsWith("xpath=")) {
                 String xpath = locator.substring(6); // Extract the XPath part
-                element = driver.findElement(By.xpath(xpath));
+                element = driver.findElement(AppiumBy.xpath(xpath));
             } else if (locator.startsWith("name=")) {
                 String name = locator.substring(5); // Extract the Name part
                 element = driver.findElement(By.name(name));

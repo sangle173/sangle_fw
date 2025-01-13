@@ -178,9 +178,79 @@ public class KeyEventUtils {
         logger.info("Generated unique name: {}", uniqueName);
         return uniqueName;
     }
+    /**
+     * Inputs a string keyword by pressing each character one by one on the Android keyboard.
+     *
+     * @param driver  The AndroidDriver instance.
+     * @param keyword The string keyword to input.
+     */
+    public static void inputString(AndroidDriver driver, String keyword) {
+        try {
+            logger.info("Inputting keyword: {}", keyword);
+            for (char c : keyword.toCharArray()) {
+                AndroidKey key = getAndroidKeyForCharacter(c);
+                if (key != null) {
+                    driver.pressKey(new KeyEvent(key));
+                    logger.info("Pressed key for character: {}", c);
+                } else {
+                    logger.warn("No mapping found for character: {}", c);
+                }
+                Thread.sleep(200); // Small delay between key presses for stability
+            }
+        } catch (Exception e) {
+            logger.error("Failed to input keyword '{}': {}", keyword, e.getMessage(), e);
+        }
+    }
 
-    private AndroidKey getAndroidKeyForCharacter(char c) {
-        // Character mapping logic
-        return null; // Implement mapping logic here
+    /**
+     * Maps a character to the corresponding AndroidKey.
+     *
+     * @param c The character to map.
+     * @return The corresponding AndroidKey, or null if no mapping is found.
+     */
+    private static AndroidKey getAndroidKeyForCharacter(char c) {
+        switch (Character.toLowerCase(c)) {
+            case 'a': return AndroidKey.A;
+            case 'b': return AndroidKey.B;
+            case 'c': return AndroidKey.C;
+            case 'd': return AndroidKey.D;
+            case 'e': return AndroidKey.E;
+            case 'f': return AndroidKey.F;
+            case 'g': return AndroidKey.G;
+            case 'h': return AndroidKey.H;
+            case 'i': return AndroidKey.I;
+            case 'j': return AndroidKey.J;
+            case 'k': return AndroidKey.K;
+            case 'l': return AndroidKey.L;
+            case 'm': return AndroidKey.M;
+            case 'n': return AndroidKey.N;
+            case 'o': return AndroidKey.O;
+            case 'p': return AndroidKey.P;
+            case 'q': return AndroidKey.Q;
+            case 'r': return AndroidKey.R;
+            case 's': return AndroidKey.S;
+            case 't': return AndroidKey.T;
+            case 'u': return AndroidKey.U;
+            case 'v': return AndroidKey.V;
+            case 'w': return AndroidKey.W;
+            case 'x': return AndroidKey.X;
+            case 'y': return AndroidKey.Y;
+            case 'z': return AndroidKey.Z;
+            case '0': return AndroidKey.DIGIT_0;
+            case '1': return AndroidKey.DIGIT_1;
+            case '2': return AndroidKey.DIGIT_2;
+            case '3': return AndroidKey.DIGIT_3;
+            case '4': return AndroidKey.DIGIT_4;
+            case '5': return AndroidKey.DIGIT_5;
+            case '6': return AndroidKey.DIGIT_6;
+            case '7': return AndroidKey.DIGIT_7;
+            case '8': return AndroidKey.DIGIT_8;
+            case '9': return AndroidKey.DIGIT_9;
+            case ' ': return AndroidKey.SPACE; // Space key
+            case '@': return AndroidKey.AT; // At symbol
+            case '.': return AndroidKey.PERIOD; // Period
+            case '_': return AndroidKey.MINUS; // Underscore (mapped to minus)
+            default: return null; // Unsupported characters
+        }
     }
 }
