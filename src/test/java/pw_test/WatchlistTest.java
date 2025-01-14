@@ -26,16 +26,17 @@ import java.util.List;
 public class WatchlistTest extends BaseTest {
     HomePage homePage = new HomePage(driver);
     WatchlistMenu watchlistMenu;
-    ContextMenu contextMenu = new ContextMenu(driver);
+    ContextMenu contextMenu;
 
     @Test(testName = "Create Watchlist from Watchlist menu", description = "Create Watchlist from Watchlist menu")
     public void createWatchlistTest() throws InterruptedException {
+        homePage = new HomePage(driver);
+        contextMenu = new ContextMenu(driver);
+        watchlistMenu = new WatchlistMenu(driver);
         Allure.step("Go to Home page");
         KeyEventUtils.pressHome(driver);
-        homePage = new HomePage(driver);
         KeyEventUtils.pressHome(driver); //by pass due to bug: PINE-4433
         Allure.step("Go to Watchlist menu");
-        new WatchlistMenu(driver);
         watchlistMenu = homePage.goToWatchlistMenu();
         String newWatchlistName = KeyEventUtils.getUniqueName();
         Allure.step("Navigate to add button and add new watchlist");
