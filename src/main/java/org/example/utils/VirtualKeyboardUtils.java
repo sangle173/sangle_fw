@@ -18,7 +18,7 @@ public class VirtualKeyboardUtils {
             "ghijkl", // Row 2
             "mnopqr", // Row 3
             "stuvwx", // Row 4
-            "xy0123", // Row 5
+            "yz0123", // Row 5
             "567890", // Row 6
             " _DEL"   // Row 7: SPACE and DELETE
     };
@@ -166,26 +166,18 @@ public class VirtualKeyboardUtils {
             }
 
             // Get the className of the active element
-            String activeElementClassName = activeElement.getAttribute("className");
+            String className = activeElement.getAttribute("className");
 
-            // Handle Button directly for SPACE
-            if ("android.widget.Button".equals(activeElementClassName)) {
-                logger.info("Detected a SPACE button.");
-                return new int[]{6, 0}; // Fixed position for SPACE: Row 6, Column 0
-            }
-
-            // Handle View by checking child elements
-            if ("android.view.View".equals(activeElementClassName)) {
-                // Get all child elements
-                List<WebElement> childElements = activeElement.findElements(By.xpath(".//*"));
-                // Find child element with class `android.widget.TextView`
-                if (childElements.isEmpty()) {
+            if ("android.view.View".equals(className)) {
+                // Handle TextView elements
+                List<WebElement> textViewChildren = activeElement.findElements(By.className("android.widget.TextView"));
+                if (textViewChildren.isEmpty()) {
                     logger.warn("No child element with class 'android.widget.TextView' found in active element.");
                     return null;
                 }
 
                 // Get the text of the first child element
-                String text = childElements.get(0).getText();
+                String text = textViewChildren.get(0).getText();
                 if (text == null || text.isEmpty()) {
                     logger.warn("The text of the child element is empty.");
                     return null;
@@ -197,17 +189,21 @@ public class VirtualKeyboardUtils {
                     logger.warn("Character '{}' is not in the keyboard layout.", text.charAt(0));
                 }
                 return position;
-            }
 
-            // Unsupported className
-            logger.warn("Unsupported active element className: {}", activeElementClassName);
-            return null;
+            } else if ("android.widget.Button".equals(className)) {
+                // Handle Button elements (assumed to be the SPACE button)
+                logger.info("Detected active element as SPACE button.");
+                return new int[]{6, 0}; // Fixed position for SPACE: Row 6, Column 0
+
+            } else {
+                // Unsupported className
+                logger.warn("Unsupported active element className: {}", className);
+                return null;
+            }
 
         } catch (Exception e) {
             logger.error("Error occurred while getting the active element position: {}", e.getMessage(), e);
             return null;
         }
     }
-
-
 }
