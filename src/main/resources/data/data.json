@@ -2081,5 +2081,14 @@
     "Sandra Rodriguez",
     "Kimberly Allen",
     "Christopher Johnson"
+  ],
+  "settings": [
+    "General",
+    "Network and Internet",
+    "Apps",
+    "Display and Sound",
+    "Remotes and Devices",
+    "Accessibility",
+    "System"
   ]
 }

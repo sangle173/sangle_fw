@@ -65,5 +65,37 @@ public class DataUtils {
         }
         return list.get(random.nextInt(list.size()));
     }
+
+    /**
+     * Get all settings as a list.
+     *
+     * @return List of all settings.
+     */
+    public static List<String> getAllSettings() {
+        return data.get("settings");
+    }
+
+    /**
+     * Get a setting by name.
+     *
+     * @param name The name of the setting.
+     * @return The setting if found, or null if not found.
+     */
+    public static String getSettingByName(String name) {
+        List<String> settings = data.get("settings");
+        if (settings != null && settings.contains(name)) {
+            return name;
+        }
+        return null;
+    }
+
+    /**
+     * Get a random setting.
+     *
+     * @return A random setting.
+     */
+    public static String getRandomSetting() {
+        return getRandomFromList("settings");
+    }
 }
 

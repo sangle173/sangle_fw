@@ -22,23 +22,5 @@
     "platformVersion": "13.0",
     "deviceName": "an4001099402d84100806",
     "automationName": "UiAutomator2"
-  },
-  "NhanTran": {
-    "platformName": "Android",
-    "platformVersion": "13.0",
-    "deviceName": "192.168.137.70:5555",
-    "automationName": "UiAutomator2"
-  },
-  "ThaoDo": {
-    "platformName": "Android",
-    "platformVersion": "13.0",
-    "deviceName": "192.168.137.227:5555",
-    "automationName": "UiAutomator2"
-  },
-  "Nhan2": {
-    "platformName": "Android",
-    "platformVersion": "13.0",
-    "deviceName": "an4001099402d84100806",
-    "automationName": "UiAutomator2"
   }
 }
