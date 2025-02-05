@@ -167,6 +167,7 @@ public class AppPage extends BasePage {
     private String addAppAction() throws InterruptedException {
         // Press "Enter" to select the current app
         KeyEventUtils.pressCenter(driver);
+        KeyEventUtils.pressDown(driver,2);
         String appName = null;
         if (isAddAppButtonDisplayed()) {
             KeyEventUtils.pressCenter(driver);
@@ -184,7 +185,9 @@ public class AppPage extends BasePage {
 
     private void removeAppAction() throws InterruptedException {
         // Press "Enter" to select the current app
-        KeyEventUtils.pressCenter(driver);
+        KeyEventUtils.pressCenter(driver); //by pass
+        KeyEventUtils.pressDown(driver);
+        KeyEventUtils.pressDown(driver);
         String appName = null;
         if (isRemoveButtonDisplayed()) {
             appName = ElementUtils.findElement(driver, APP_NAME_LOCATOR).getText();
@@ -201,6 +204,7 @@ public class AppPage extends BasePage {
     private void removeActiveAppAction() throws InterruptedException {
         // Press "Enter" to select the current app
         KeyEventUtils.pressCenter(driver);
+        KeyEventUtils.pressDown(driver,2);
         String appName = null;
         WebElement removeButton = ElementUtils.findElement(driver, REMOVE_APP_LOCATOR);
         if (removeButton !=null) {
